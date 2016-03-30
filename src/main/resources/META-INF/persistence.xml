@@ -26,10 +26,13 @@
       <!-- The datasource is deployed as WEB-INF/liftbox-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/liftbox-ds.xml -->
       <jta-data-source>java:jboss/datasources/liftboxDS</jta-data-source>
+       <class>com.cat.prf.entity.File</class>
+       <class>com.cat.prf.entity.User</class>
       <properties>
          <!-- Properties for Hibernate -->
-         <property name="hibernate.hbm2ddl.auto" value="create-drop" />
+         <property name="hibernate.hbm2ddl.auto" value="update" />
          <property name="hibernate.show_sql" value="false" />
+         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
       </properties>
    </persistence-unit>
 </persistence>
