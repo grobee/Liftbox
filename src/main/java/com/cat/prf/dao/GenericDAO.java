@@ -3,8 +3,12 @@ package com.cat.prf.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 
-abstract public class GenericDAO<EntityType, IdentifierType> {
+abstract public class GenericDAO<EntityType, IdentifierType> implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     @PersistenceContext
     private EntityManager em;
     private Class<EntityType> entityClass;

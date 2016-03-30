@@ -25,6 +25,12 @@
                 </div>
                 <h:commandButton class="btn btn-primary btn-md" value="Submit" action="#{loginBean.submit}"/>
             </h:form>
+            <br/>
+            <h:panelGroup rendered="#{loginBean.error}" >
+                <div class="alert alert-danger" style="width: 400px">
+                    <strong>Error!</strong> Incorrect username or password!
+                </div>
+            </h:panelGroup>
         </div>
 
 

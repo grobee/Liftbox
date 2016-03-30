@@ -8,6 +8,9 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UserDAO extends GenericDAO<User, Long> {
+
+    private static final long serialVersionUID = -5859058016736013679L;
+
     public UserDAO() {
         super(User.class);
     }
