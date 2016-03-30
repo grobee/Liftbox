@@ -14,6 +14,14 @@ public class File {
     private String name;
     private long size;
 
+    public File() {
+    }
+
+    public File(String name, long size) {
+        this.name = name;
+        this.size = size;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
@@ -40,5 +48,26 @@ public class File {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        File file = (File) o;
+
+        if (id != file.id) return false;
+        if (size != file.size) return false;
+        return name != null ? name.equals(file.name) : file.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (int) (size ^ (size >>> 32));
+        return result;
     }
 }

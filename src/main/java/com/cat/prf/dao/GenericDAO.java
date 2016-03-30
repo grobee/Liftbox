@@ -33,6 +33,10 @@ abstract public class GenericDAO<EntityType, IdentifierType> {
         em.remove(entity);
     }
 
+    public boolean contains(EntityType entity) {
+        return em.contains(entity);
+    }
+
     public Class<EntityType> getEntityClass() {
         return entityClass;
     }
