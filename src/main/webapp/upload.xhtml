@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="templates/default.xhtml">
+    <ui:define name="includes">
+        <h:outputScript library="javascript" name="upload.js" />
+    </ui:define>
+
+    <ui:define name="content">
+        Upload a new file:
+        <form enctype="multipart/form-data" method="post" accept-charset="UTF-8">
+            Files: <input multiple="multiple" id="fileUpload" type="file" name="files" />
+            <input type="button" onclick="upload()" multiple="multiple" value="upload" />
+        </form>
+    </ui:define>
+</ui:composition>
