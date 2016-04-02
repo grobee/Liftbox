@@ -13,4 +13,9 @@
         <view-id value="/login.xhtml"/>
     </url-mapping>
 
+    <url-mapping>
+        <pattern value="/listfiles"/>
+        <view-id value="/listfiles.xhtml"/>
+    </url-mapping>
+
 </pretty-config>
