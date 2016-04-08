@@ -12,10 +12,9 @@ import javax.validation.constraints.NotNull;
                 query = "select u from User u where u.username = :username and u.password = :password")
 })
 public class User {
-    private long id;
-    private String email;
     private String username;
     private String password;
+    private String email;
 
     public User() {
     }
@@ -26,27 +25,8 @@ public class User {
         this.password = password;
     }
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @NotNull
-    @Column(unique = true)
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @NotNull
     @Column(unique = true)
     public String getUsername() {
         return username;
@@ -56,7 +36,7 @@ public class User {
         this.username = username;
     }
 
-    @NotNull
+    @Column(nullable = false)
     public String getPassword() {
         return password;
     }
@@ -65,6 +45,18 @@ public class User {
         this.password = password;
     }
 
+
+    @NotNull
+    @Column(unique = true, nullable = false)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,7 +64,6 @@ public class User {
 
         User user = (User) o;
 
-        if (id != user.id) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         return password != null ? password.equals(user.password) : user.password == null;
@@ -80,10 +71,9 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
+        int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 }
