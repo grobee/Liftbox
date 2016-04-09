@@ -7,29 +7,26 @@
                 template="templates/default.xhtml">
 
     <ui:define name="content">
-        <div class="container">
-            <h2>Liftbox listfiles</h2>
-            <br/>
-            <br/>
-            <table class="table table-bordered">
-                <thead>
+        <h2>Liftbox listfiles</h2>
+        <br/>
+        <br/>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Filename</th>
+                <th>Size</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="#{listfilesBean.files}" var="file">
                 <tr>
-                    <th>Id</th>
-                    <th>Filename</th>
-                    <th>Size</th>
+                    <td>#{file.id}</td>
+                    <td>#{file.name}</td>
+                    <td>#{file.size}</td>
                 </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="#{listfilesBean.files}" var="file">
-                    <tr>
-                        <td>#{file.id}</td>
-                        <td>#{file.name}</td>
-                        <td>#{file.size}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-
+            </c:forEach>
+            </tbody>
+        </table>
     </ui:define>
 </ui:composition>

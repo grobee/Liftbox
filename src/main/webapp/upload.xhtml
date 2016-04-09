@@ -10,10 +10,12 @@
     </ui:define>
 
     <ui:define name="content">
-        Upload a new file:
         <form enctype="multipart/form-data" method="post" accept-charset="UTF-8">
-            Files: <input multiple="multiple" id="fileUpload" type="file" name="files" />
-            <input type="button" onclick="upload()" multiple="multiple" value="upload" />
+            <div class="form-group">
+                <label for="fileUpload">Upload new files:</label>
+                <input multiple="multiple" id="fileUpload" type="file" name="files" />
+            </div>
+            <input type="button" class="btn btn-default" onclick="upload()" multiple="multiple" value="Upload" />
         </form>
     </ui:define>
 </ui:composition>
