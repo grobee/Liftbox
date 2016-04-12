@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
                 query = "select u from User u where u.username = :username and u.password = :password")
 })
 public class User {
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -25,8 +26,17 @@ public class User {
         this.password = password;
     }
 
-
     @Id
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Column(unique = true)
     public String getUsername() {
         return username;
@@ -36,7 +46,7 @@ public class User {
         this.username = username;
     }
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "passwd")
     public String getPassword() {
         return password;
     }

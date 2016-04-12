@@ -2,7 +2,6 @@ package com.cat.prf.dao;
 
 import com.cat.prf.entity.User;
 
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;

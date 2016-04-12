@@ -1,24 +1,26 @@
 package com.cat.prf.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "user_roles")
 public class UserRole implements Serializable {
-    private User user;
+    private String username;
     private String role;
 
     @Id
-    @OneToOne(fetch = FetchType.LAZY,
-            targetEntity = User.class)
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
 
     @Column(nullable = false)
     public String getRole() {
