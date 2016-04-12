@@ -1,7 +1,8 @@
 package com.cat.prf.controller;
 
-import com.cat.prf.dao.FileDAO;
+import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.entity.File;
+import com.cat.prf.entity.Folder;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -19,32 +20,55 @@ public class ListfilesBean implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
 
     // It would duplicate the table at every site refresh without this
-    private boolean firstRun;
+    private boolean firstRunFiles;
+    private boolean firstRunFolders;
 
     private List<File> files = new ArrayList<>();
+    private List<Folder> folders = new ArrayList<>();
+
 
     @Inject
-    private FileDAO fileDAO;
+    private FolderDAO folderDAO;
 
     public ListfilesBean() {
-        firstRun = true;
+        firstRunFiles = true;
+        firstRunFolders = true;
     }
 
     public List<File> getFiles() {
 
-        if (firstRun) {
-            for (File f : fileDAO.listFiles()) {
-                LOGGER.info("\nid: " + f.getId() + " \nname: " + f.getName() + " \nsize: " + f.getSize());
+        if (firstRunFiles) {
+            for (File f : folderDAO.getFiles()) {
+                //LOGGER.info("\nid: " + f.getId() + " \nname: " + f.getName() + " \nsize: " + f.getSize());
                 files.add(f);
 
             }
         }
-        firstRun = false;
+        firstRunFiles = false;
         return files;
+    }
+
+
+    public List<Folder> getFolders() {
+
+        if (firstRunFolders) {
+            for (Folder f : folderDAO.getFolders()) {
+                //LOGGER.info("\nid: " + f.getId() + " \nname: " + f.getName() + " \nsize: " + f.getSize());
+                folders.add(f);
+
+            }
+        }
+        firstRunFolders = false;
+        return folders;
     }
 
     public void setFiles(List<File> files) {
         this.files = files;
     }
+
+    public void setFolders(List<Folder> folders) {
+        this.folders = folders;
+    }
+
 
 }

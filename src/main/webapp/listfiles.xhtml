@@ -19,6 +19,13 @@
             </tr>
             </thead>
             <tbody>
+            <c:forEach items="#{listfilesBean.folders}" var="folder" >
+                <tr>
+                    <td><strong>[#{folder.id}]</strong></td>
+                    <td><strong>[#{folder.name}]</strong></td>
+                    <td><strong>&lt;DIR&gt;</strong></td>
+                </tr>
+            </c:forEach>
             <c:forEach items="#{listfilesBean.files}" var="file">
                 <tr>
                     <td>#{file.id}</td>
@@ -26,6 +33,7 @@
                     <td>#{file.size}</td>
                 </tr>
             </c:forEach>
+
             </tbody>
         </table>
     </ui:define>
