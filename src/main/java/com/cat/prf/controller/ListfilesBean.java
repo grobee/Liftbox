@@ -4,7 +4,7 @@ import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,18 +14,20 @@ import java.util.logging.Logger;
 
 
 @Named("listfilesBean")
-@SessionScoped
+@RequestScoped
 public class ListfilesBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
 
+
     // It would duplicate the table at every site refresh without this
     private boolean firstRunFiles;
     private boolean firstRunFolders;
+    private boolean showBackButton;
+
 
     private List<File> files = new ArrayList<>();
     private List<Folder> folders = new ArrayList<>();
-
 
     @Inject
     private FolderDAO folderDAO;
@@ -33,13 +35,27 @@ public class ListfilesBean implements Serializable {
     public ListfilesBean() {
         firstRunFiles = true;
         firstRunFolders = true;
+        showBackButton = false;
     }
+
+    public List<File> getFiles(int id) {
+
+        if (firstRunFiles) {
+            for (File f : folderDAO.getFilesDAO(id)) {
+                files.add(f);
+
+            }
+        }
+        firstRunFiles = false;
+
+        return files;
+    }
+
 
     public List<File> getFiles() {
 
         if (firstRunFiles) {
-            for (File f : folderDAO.getFiles()) {
-                //LOGGER.info("\nid: " + f.getId() + " \nname: " + f.getName() + " \nsize: " + f.getSize());
+            for (File f : folderDAO.getFilesByUnameDAO()) {
                 files.add(f);
 
             }
@@ -49,11 +65,10 @@ public class ListfilesBean implements Serializable {
     }
 
 
-    public List<Folder> getFolders() {
+    public List<Folder> getFolders(int id) {
 
         if (firstRunFolders) {
-            for (Folder f : folderDAO.getFolders()) {
-                //LOGGER.info("\nid: " + f.getId() + " \nname: " + f.getName() + " \nsize: " + f.getSize());
+            for (Folder f : folderDAO.getFoldersDAO(id)) {
                 folders.add(f);
 
             }
@@ -62,12 +77,53 @@ public class ListfilesBean implements Serializable {
         return folders;
     }
 
+    public List<Folder> getFolders() {
+
+        if (firstRunFolders) {
+            for (Folder f : folderDAO.getFoldersByUnameDAO()) {
+                folders.add(f);
+
+            }
+        }
+        firstRunFolders = false;
+        return folders;
+    }
+
+    public boolean isShowBackButton() {
+        return showBackButton;
+    }
+
+    public void setShowBackButton(boolean showBackButton) {
+        this.showBackButton = showBackButton;
+    }
+
+
     public void setFiles(List<File> files) {
         this.files = files;
     }
 
     public void setFolders(List<Folder> folders) {
         this.folders = folders;
+    }
+
+    public void goNextPage(int id) {
+        folders.clear();
+        files.clear();
+
+        showBackButton = true;
+
+        LOGGER.info(String.valueOf(id));
+
+        for (Folder f : folderDAO.getFoldersDAO(id)) {
+            folders.add(f);
+
+        }
+
+        for (File f : folderDAO.getFilesDAO(id)) {
+            files.add(f);
+
+        }
+
     }
 
 

@@ -10,6 +10,11 @@
         <h2>Liftbox listfiles</h2>
         <br/>
         <br/>
+        <h:panelGroup rendered="#{listfilesBean.showBackButton}">
+            <button onclick="window.history.back()">Go Back</button>
+        </h:panelGroup>
+        <br/>
+        <br/>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -22,7 +27,9 @@
             <c:forEach items="#{listfilesBean.folders}" var="folder" >
                 <tr>
                     <td><strong>[#{folder.id}]</strong></td>
-                    <td><strong>[#{folder.name}]</strong></td>
+                    <td><strong><h:form>
+                        <h:commandLink value="[#{folder.name}]" action="#{listfilesBean.goNextPage(folder.id)}"/>
+                    </h:form></strong></td>
                     <td><strong>&lt;DIR&gt;</strong></td>
                 </tr>
             </c:forEach>

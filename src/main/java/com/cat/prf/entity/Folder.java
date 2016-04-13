@@ -5,18 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 @Entity
 @Table(name = "folders")
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = "listFolders",
-                query = "select f from Folder f"))
+                query = "select f from Folder f"),
+        @NamedQuery(name = "selectSpecificFolder",
+                query = "select f from Folder f where f.id=:id")})
+
 
 public class Folder {
 
     private int id;
     private String name;
-    private List<Folder> folders= new ArrayList<>();
+    private List<Folder> folders = new ArrayList<>();
     private List<File> files = new ArrayList<>();
 
 
@@ -47,7 +49,7 @@ public class Folder {
         this.folders = folders;
     }
 
-    @OneToMany(fetch =  FetchType.EAGER, targetEntity = File.class)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = File.class)
     public List<File> getFiles() {
         return files;
     }
