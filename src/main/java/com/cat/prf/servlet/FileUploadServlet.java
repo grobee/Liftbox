@@ -26,7 +26,7 @@ public class FileUploadServlet extends HttpServlet {
         File uploadFolder = new File(req.getServletContext().getRealPath("") + File.separator
                 + "Files" + File.separator + username);
 
-        if(!uploadFolder.isDirectory()) {
+        if (!uploadFolder.isDirectory()) {
             uploadFolder.mkdirs();
         }
 
