@@ -9,13 +9,17 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = "listUsers",
                 query = "select u from User u"),
         @NamedQuery(name = "findUser",
-                query = "select u from User u where u.username = :username and u.password = :password")
+                query = "select u from User u where u.username = :username and u.password = :password"),
+        @NamedQuery(name = "getFolderId",
+                query = "select u.rootfolder from User u where u.username = :username")
 })
 public class User {
+
     private int id;
     private String username;
     private String password;
     private String email;
+    private Folder rootfolder;
 
     public User() {
     }
@@ -85,5 +89,14 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
+    }
+
+    @OneToOne(targetEntity = Folder.class)
+    public Folder getRootfolder() {
+        return rootfolder;
+    }
+
+    public void setRootfolder(Folder rootfolder) {
+        this.rootfolder = rootfolder;
     }
 }
