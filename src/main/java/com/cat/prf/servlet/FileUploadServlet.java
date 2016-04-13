@@ -1,8 +1,10 @@
 package com.cat.prf.servlet;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.security.auth.Subject;
+import com.cat.prf.dao.FileDAO;
+import com.cat.prf.dao.FolderDAO;
+import com.cat.prf.entity.Folder;
+
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
-import java.security.Principal;
 import java.util.logging.Logger;
 
 @WebServlet(name = "fileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
+    @Inject
+    private FileDAO fileDAO;
+    @Inject
+    private FolderDAO folderDAO;
     private static final Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getSimpleName());
 
     @Override
@@ -41,6 +46,9 @@ public class FileUploadServlet extends HttpServlet {
                 while ((r = dis.read(buffer)) != -1) {
                     dos.write(buffer, 0, r);
                 }
+
+                Folder parent = folderDAO.read(Long.parseLong(file.getName()));
+                fileDAO.create(new com.cat.prf.entity.File(fileName, file.getSize(), parent));
                 n++;
             }
         }

@@ -3,6 +3,7 @@ var filesDiv;
 var progressBarContainerDiv;
 var progressBarDiv;
 var progressBarParentDiv;
+var folderNameDiv;
 
 function init() {
     fileInput = document.getElementById("fileUpload");
@@ -10,16 +11,16 @@ function init() {
     progressBarContainerDiv = document.getElementById("progressBarContainerDiv");
     progressBarDiv = document.getElementById("progressBarDiv");
     progressBarParentDiv = document.getElementById("progressBarParent");
+    folderNameDiv = document.getElementById("folderName");
 
     filesDiv.className += "container-fluid";
     filesDiv.innerHTML = "No files selected...";
     filesDiv.style.textAlign = "center";
 
     progressBarParentDiv.removeChild(progressBarContainerDiv);
-    progressBarContainerDiv.style.textAlign = "center";
 }
 
-function upload(i) {
+function upload() {
     if (fileInput.files.length == 0) {
         return;
     }
@@ -34,7 +35,7 @@ function doRealUpload(i) {
     fileDiv.appendChild(progressBarContainerDiv);
 
     var partialFormData = new FormData();
-    partialFormData.append("file" + i, fileInput.files[i]);
+    partialFormData.append(folderNameDiv.innerHTML, fileInput.files[i]);
 
     xhr.open("post", "http://localhost:8080/liftbox/upload", true);
 
