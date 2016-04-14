@@ -4,7 +4,7 @@ import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 
 @Named("listfilesBean")
-@RequestScoped
+@ViewScoped
 public class ListfilesBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
@@ -25,8 +25,9 @@ public class ListfilesBean implements Serializable {
     private boolean firstRunFolders;
     private boolean showBackButton;
 
-
+    // Fajlok listaja a listfilesban
     private List<File> files = new ArrayList<>();
+    // Folderok listaja a listfilesban
     private List<Folder> folders = new ArrayList<>();
 
     @Inject
@@ -38,20 +39,7 @@ public class ListfilesBean implements Serializable {
         showBackButton = false;
     }
 
-    public List<File> getFiles(int id) {
-
-        if (firstRunFiles) {
-            for (File f : folderDAO.getFilesDAO(id)) {
-                files.add(f);
-
-            }
-        }
-        firstRunFiles = false;
-
-        return files;
-    }
-
-
+    // Amikor usernev alapjan kerjuk le a foldert
     public List<File> getFiles() {
 
         if (firstRunFiles) {
@@ -61,22 +49,11 @@ public class ListfilesBean implements Serializable {
             }
         }
         firstRunFiles = false;
+
         return files;
     }
 
-
-    public List<Folder> getFolders(int id) {
-
-        if (firstRunFolders) {
-            for (Folder f : folderDAO.getFoldersDAO(id)) {
-                folders.add(f);
-
-            }
-        }
-        firstRunFolders = false;
-        return folders;
-    }
-
+    // Amikor usernev alapjan kerjuk le a foldert
     public List<Folder> getFolders() {
 
         if (firstRunFolders) {
@@ -86,6 +63,7 @@ public class ListfilesBean implements Serializable {
             }
         }
         firstRunFolders = false;
+
         return folders;
     }
 
@@ -107,13 +85,15 @@ public class ListfilesBean implements Serializable {
     }
 
     public void goNextPage(int id) {
+
+        // A listak kiuritese
         folders.clear();
         files.clear();
 
         showBackButton = true;
 
-        LOGGER.info(String.valueOf(id));
-
+        // Listak feltoltese az uj megnyitott mappa elemeivel
+        // Amikor ID alapjan kerjuk le a foldert meg a fileokat
         for (Folder f : folderDAO.getFoldersDAO(id)) {
             folders.add(f);
 
@@ -123,6 +103,7 @@ public class ListfilesBean implements Serializable {
             files.add(f);
 
         }
+
 
     }
 

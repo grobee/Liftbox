@@ -31,15 +31,17 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
 
     }
 
+    public int getCurrentId() {
+        TypedQuery<Folder> userQuery = getEntityManager().createNamedQuery("getFolderId", Folder.class);
+        userQuery.setParameter("username", "admin");
+        return userQuery.getSingleResult().getId();
+    }
 
     public List<File> getFilesDAO(int id) {
         TypedQuery<Folder> folderQuery = getEntityManager().createNamedQuery("selectSpecificFolder", Folder.class);
         folderQuery.setParameter("id", id);
         return folderQuery.getSingleResult().getFiles();
 
-//        TypedQuery<Folder> userQuery = getEntityManager().createNamedQuery("getFolderId", Folder.class);
-//        userQuery.setParameter("username", "admin");
-//        return userQuery.getSingleResult().getFiles();
     }
 
     public List<Folder> getFoldersByUnameDAO() {

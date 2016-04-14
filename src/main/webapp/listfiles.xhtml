@@ -24,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="#{listfilesBean.folders}" var="folder" >
+            <c:forEach items="#{listfilesBean.folders}" var="folder" varStatus="counter">
                 <tr>
                     <td><strong>[#{folder.id}]</strong></td>
                     <td><strong><h:form>
