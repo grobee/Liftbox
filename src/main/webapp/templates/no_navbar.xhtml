@@ -8,21 +8,18 @@
 <h:head>
     <title>Liftbox</title>
     <meta charset="UTF-8" content="text/html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <h:outputStylesheet library="css" name="min/bootstrap.min.css"/>
+    <h:outputStylesheet library="css" name="login.css"/>
     <h:outputScript library="javascript" name="min/jquery-2.2.2.min.js"/>
     <h:outputScript library="javascript" name="min/bootstrap.min.js"/>
     <ui:insert name="includes"/>
 </h:head>
 <h:body>
-    <div class="container">
-        <div class="content">
-            <ui:insert name="content">
-                [The page content comes here]
-            </ui:insert>
-        </div>
-    </div>
-    <div id="footer">
-
+    <div class="content">
+        <ui:insert name="content">
+            [The page content comes here]
+        </ui:insert>
     </div>
 </h:body>
 </html>

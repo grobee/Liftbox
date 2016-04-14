@@ -1,0 +1,27 @@
+body{
+    color: #fff;
+    font-family: "Trebuchet MS", Arial;
+    background:url(#{request.contextPath}/resources/images/liftbox_background_30pers.jpg) no-repeat;
+    background-size: 100%;
+}
+.form_login {
+    width: 70%;
+    background: #333;
+    padding: 5%;
+    opacity: 0.7;
+    border-radius: 2em;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+}
+
+.liftbox_login {
+    font-size: 255%;
+}
+
+.liftbox_title {
+    font-size: 400%;
+}
+
+.liftbox_desc{
+    font-size: 230%;
+}
