@@ -11,7 +11,9 @@
         <br/>
         <br/>
         <h:panelGroup rendered="#{listfilesBean.showBackButton}">
-            <button onclick="window.history.back()">Go Back</button>
+            <h:form>
+                <h:commandButton value="Go Back " action="#{listfilesBean.goBackPage}"/>
+            </h:form>
         </h:panelGroup>
         <br/>
         <br/>
