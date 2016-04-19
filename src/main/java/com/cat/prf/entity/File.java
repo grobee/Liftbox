@@ -1,7 +1,6 @@
 package com.cat.prf.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "files")
@@ -13,13 +12,15 @@ public class File {
     private long id;
     private String name;
     private long size;
+    private Folder parent;
 
     public File() {
     }
 
-    public File(String name, long size) {
+    public File(String name, long size, Folder parent) {
         this.name = name;
         this.size = size;
+        this.parent = parent;
     }
 
     @Id
@@ -32,7 +33,7 @@ public class File {
         this.id = id;
     }
 
-    @NotNull
+    @Column(nullable = false)
     public String getName() {
         return name;
     }
@@ -41,13 +42,22 @@ public class File {
         this.name = name;
     }
 
-    @NotNull
+    @Column(nullable = false)
     public long getSize() {
         return size;
     }
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    @OneToOne(targetEntity = Folder.class)
+    public Folder getParent() {
+        return parent;
+    }
+
+    public void setParent(Folder parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -60,7 +70,6 @@ public class File {
         if (id != file.id) return false;
         if (size != file.size) return false;
         return name != null ? name.equals(file.name) : file.name == null;
-
     }
 
     @Override

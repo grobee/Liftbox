@@ -15,8 +15,7 @@ import java.util.List;
 
 
 public class Folder {
-
-    private int id;
+    private long id;
     private String name;
     private List<Folder> folders = new ArrayList<>();
     private List<File> files = new ArrayList<>();
@@ -24,11 +23,11 @@ public class Folder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

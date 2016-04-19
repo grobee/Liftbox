@@ -13,7 +13,6 @@ public class MenuBean {
 
     @PostConstruct
     public void initialize() {
-        pages.add(new Page("Upload", "/upload.xhtml"));
         pages.add(new Page("Files", "/listfiles.xhtml"));
     }
 
