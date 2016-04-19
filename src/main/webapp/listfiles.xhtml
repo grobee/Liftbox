@@ -29,16 +29,17 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="#{listfilesBean.folders}" var="folder" varStatus="counter">
+            <c:forEach items="#{listfilesBean.getFolders(request.userPrincipal.name)}" var="folder" varStatus="counter">
                 <tr>
                     <td><strong>[#{folder.id}]</strong></td>
                     <td><strong><h:form>
-                        <h:commandLink value="[#{folder.name}]" action="#{listfilesBean.goNextPage(folder.id)}"/>
+                        <h:commandLink value="[#{folder.name}]"
+                                       action="#{listfilesBean.goNextPage(folder.id,request.userPrincipal.name)}"/>
                     </h:form></strong></td>
                     <td><strong>&lt;DIR&gt;</strong></td>
                 </tr>
             </c:forEach>
-            <c:forEach items="#{listfilesBean.files}" var="file">
+            <c:forEach items="#{listfilesBean.getFiles(request.userPrincipal.name)}" var="file">
                 <tr>
                     <td>#{file.id}</td>
                     <td>#{file.name}</td>
@@ -47,7 +48,6 @@
             </c:forEach>
             </tbody>
         </table>
-
         <button value="upload"
                 class="btn btn-default"
                 onclick=""
@@ -55,7 +55,7 @@
                 data-target="#fileUploadModal">upload
         </button>
 
-        <div style="display: none" id="folderName">1</div>
+        <div style="display: none" id="folderName">#{listfilesBean.getCurrentId(request.userPrincipal.name)}</div>
 
         <div id="fileUploadModal" class="modal fade" role="dialog">
             <div class="modal-dialog">

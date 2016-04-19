@@ -25,6 +25,9 @@ public class ListfilesBean implements Serializable {
     private boolean firstRunFolders;
     private boolean showBackButton;
 
+
+    private int currentId = 0;
+
     // List of files on the page
     private List<File> files = new ArrayList<>();
     // List of folders on the page
@@ -42,10 +45,10 @@ public class ListfilesBean implements Serializable {
     }
 
     // Database request for root folders files
-    public List<File> getFiles() {
+    public List<File> getFiles(String username) {
 
         if (firstRunFiles) {
-            files.addAll(folderDAO.getFilesByUnameDAO());
+            files.addAll(folderDAO.getFilesByUnameDAO(username));
         }
         firstRunFiles = false;
 
@@ -53,10 +56,10 @@ public class ListfilesBean implements Serializable {
     }
 
     //  Database request for root folders folders
-    public List<Folder> getFolders() {
+    public List<Folder> getFolders(String username) {
 
         if (firstRunFolders) {
-            folders.addAll(folderDAO.getFoldersByUnameDAO());
+            folders.addAll(folderDAO.getFoldersByUnameDAO(username));
         }
         firstRunFolders = false;
 
@@ -80,11 +83,11 @@ public class ListfilesBean implements Serializable {
         this.folders = folders;
     }
 
-    public void goNextPage(int id) {
+    public void goNextPage(int id, String username) {
 
         // Check whether the user is on the root page
         if (!showBackButton && history.size() == 0) {
-            history.add(folderDAO.getCurrentId());
+            history.add(folderDAO.getCurrentId(username));
         }
 
         history.add(id);
@@ -113,6 +116,20 @@ public class ListfilesBean implements Serializable {
 
         folders.addAll(folderDAO.getFoldersDAO(id));
         files.addAll(folderDAO.getFilesDAO(id));
+    }
+
+    public int getCurrentId(String username) {
+        if (history.size() <= 1) {
+            currentId = folderDAO.getCurrentId(username);
+        } else {
+            currentId = history.get(history.size() - 1);
+        }
+
+        return currentId;
+    }
+
+    public void setCurrentId(int currentId) {
+        this.currentId = currentId;
     }
 
 }
