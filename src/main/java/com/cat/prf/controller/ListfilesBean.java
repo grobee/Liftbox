@@ -25,6 +25,9 @@ public class ListfilesBean implements Serializable {
     private boolean firstRunFolders;
     private boolean showBackButton;
 
+
+    private int currentId = 0;
+
     // List of files on the page
     private List<File> files = new ArrayList<>();
     // List of folders on the page
@@ -113,6 +116,20 @@ public class ListfilesBean implements Serializable {
 
         folders.addAll(folderDAO.getFoldersDAO(id));
         files.addAll(folderDAO.getFilesDAO(id));
+    }
+
+    public int getCurrentId() {
+        if (history.size() <= 1) {
+            currentId = folderDAO.getCurrentId();
+        } else {
+            currentId = history.get(history.size() - 1);
+        }
+
+        return currentId;
+    }
+
+    public void setCurrentId(int currentId) {
+        this.currentId = currentId;
     }
 
 }

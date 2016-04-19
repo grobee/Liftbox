@@ -47,7 +47,6 @@
             </c:forEach>
             </tbody>
         </table>
-
         <button value="upload"
                 class="btn btn-default"
                 onclick=""
@@ -55,7 +54,7 @@
                 data-target="#fileUploadModal">upload
         </button>
 
-        <div style="display: none" id="folderName">1</div>
+        <div style="display: none" id="folderName">#{listfilesBean.currentId}</div>
 
         <div id="fileUploadModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
