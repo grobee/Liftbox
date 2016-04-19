@@ -13,6 +13,9 @@ abstract public class GenericDAO<EntityType, IdentifierType> implements Serializ
     private EntityManager em;
     private Class<EntityType> entityClass;
 
+    public GenericDAO() {
+    }
+
     public GenericDAO(Class<EntityType> entityClass) {
         this.entityClass = entityClass;
     }

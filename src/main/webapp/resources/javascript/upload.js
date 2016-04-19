@@ -51,6 +51,9 @@ function doRealUpload(i) {
 
         if (i < fileInput.files.length) {
             doRealUpload(i);
+        } else {
+            console.log("ASDASDASD");
+            window.location.replace(window.location);
         }
     });
 

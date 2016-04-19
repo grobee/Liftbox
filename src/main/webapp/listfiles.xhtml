@@ -45,7 +45,6 @@
                     <td>#{file.size}</td>
                 </tr>
             </c:forEach>
-
             </tbody>
         </table>
 
@@ -55,6 +54,8 @@
                 data-toggle="modal"
                 data-target="#fileUploadModal">upload
         </button>
+
+        <div style="display: none" id="folderName">1</div>
 
         <div id="fileUploadModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
