@@ -4,7 +4,7 @@ import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 
 @Named("listfilesBean")
-@RequestScoped
+@ViewScoped
 public class ListfilesBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
@@ -25,9 +25,12 @@ public class ListfilesBean implements Serializable {
     private boolean firstRunFolders;
     private boolean showBackButton;
 
-
+    // List of files on the page
     private List<File> files = new ArrayList<>();
+    // List of folders on the page
     private List<Folder> folders = new ArrayList<>();
+    // Page history needed for navigation
+    private List<Integer> history = new ArrayList<>();
 
     @Inject
     private FolderDAO folderDAO;
@@ -38,54 +41,25 @@ public class ListfilesBean implements Serializable {
         showBackButton = false;
     }
 
-    public List<File> getFiles(int id) {
-
-        if (firstRunFiles) {
-            for (File f : folderDAO.getFilesDAO(id)) {
-                files.add(f);
-
-            }
-        }
-        firstRunFiles = false;
-
-        return files;
-    }
-
-
+    // Database request for root folders files
     public List<File> getFiles() {
 
         if (firstRunFiles) {
-            for (File f : folderDAO.getFilesByUnameDAO()) {
-                files.add(f);
-
-            }
+            files.addAll(folderDAO.getFilesByUnameDAO());
         }
         firstRunFiles = false;
+
         return files;
     }
 
-
-    public List<Folder> getFolders(int id) {
-
-        if (firstRunFolders) {
-            for (Folder f : folderDAO.getFoldersDAO(id)) {
-                folders.add(f);
-
-            }
-        }
-        firstRunFolders = false;
-        return folders;
-    }
-
+    //  Database request for root folders folders
     public List<Folder> getFolders() {
 
         if (firstRunFolders) {
-            for (Folder f : folderDAO.getFoldersByUnameDAO()) {
-                folders.add(f);
-
-            }
+            folders.addAll(folderDAO.getFoldersByUnameDAO());
         }
         firstRunFolders = false;
+
         return folders;
     }
 
@@ -107,24 +81,38 @@ public class ListfilesBean implements Serializable {
     }
 
     public void goNextPage(int id) {
-        folders.clear();
-        files.clear();
 
+        // Check whether the user is on the root page
+        if (!showBackButton && history.size() == 0) {
+            history.add(folderDAO.getCurrentId());
+        }
+
+        history.add(id);
         showBackButton = true;
-
-        LOGGER.info(String.valueOf(id));
-
-        for (Folder f : folderDAO.getFoldersDAO(id)) {
-            folders.add(f);
-
-        }
-
-        for (File f : folderDAO.getFilesDAO(id)) {
-            files.add(f);
-
-        }
+        changeListById(id);
 
     }
 
+    public void goBackPage() {
+
+        history.remove(history.size() - 1);
+        int id = history.get(history.size() - 1);
+
+        if (history.size() == 1) {
+            showBackButton = false;
+        }
+
+        changeListById(id);
+
+    }
+
+    // Database request with specified folder id
+    private void changeListById(int id) {
+        folders.clear();
+        files.clear();
+
+        folders.addAll(folderDAO.getFoldersDAO(id));
+        files.addAll(folderDAO.getFilesDAO(id));
+    }
 
 }
