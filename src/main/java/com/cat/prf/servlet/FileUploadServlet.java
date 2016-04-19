@@ -2,7 +2,9 @@ package com.cat.prf.servlet;
 
 import com.cat.prf.dao.FileDAO;
 import com.cat.prf.dao.FolderDAO;
+import com.cat.prf.dao.FolderFileDAO;
 import com.cat.prf.entity.Folder;
+import com.cat.prf.entity.FolderFile;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -22,6 +24,8 @@ public class FileUploadServlet extends HttpServlet {
     private FileDAO fileDAO;
     @Inject
     private FolderDAO folderDAO;
+    @Inject
+    private FolderFileDAO folderFileDAO;
     private static final Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getSimpleName());
 
     @Override
@@ -39,8 +43,7 @@ public class FileUploadServlet extends HttpServlet {
             String fileName = new String(file.getSubmittedFileName().getBytes("iso-8859-1"), "UTF-8");
             try (DataInputStream dis = new DataInputStream(file.getInputStream());
                  DataOutputStream dos = new DataOutputStream(
-                         new FileOutputStream(uploadFolder + File.separator + fileName)
-                 )) {
+                         new FileOutputStream(uploadFolder + File.separator + fileName))) {
                 byte[] buffer = new byte[1024];
                 int r;
                 while ((r = dis.read(buffer)) != -1) {
@@ -48,7 +51,11 @@ public class FileUploadServlet extends HttpServlet {
                 }
 
                 Folder parent = folderDAO.read(Long.parseLong(file.getName()));
-                fileDAO.create(new com.cat.prf.entity.File(fileName, file.getSize(), parent));
+                com.cat.prf.entity.File uploaded = new com.cat.prf.entity.File(fileName, file.getSize(), parent);
+
+                fileDAO.create(uploaded);
+                folderFileDAO.create(new FolderFile(parent.getId(), uploaded.getId()));
+
                 n++;
             }
         }

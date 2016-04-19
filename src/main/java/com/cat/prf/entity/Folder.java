@@ -20,7 +20,6 @@ public class Folder {
     private List<Folder> folders = new ArrayList<>();
     private List<File> files = new ArrayList<>();
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
