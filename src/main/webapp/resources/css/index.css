@@ -1,0 +1,55 @@
+.dropdown-menu > li > a.none:hover {
+    background-color: transparent;
+}
+
+.breadcrumb {
+    font-size: 18px;
+}
+
+.breadcrumb > li + li:before {
+    content: " > ";
+    color: #3d464d;
+}
+
+.liftbox_color1 {
+    color: #189205;
+}
+
+.liftbox_color2 {
+    background-color: #e7ffd3;
+}
+
+.liftbox_color3 {
+    background-color: #d3ffa9;
+}
+
+
+.table-hover tbody tr:hover td {
+    background-color: #e7ffd3;
+}
+
+.table-hover tbody tr:active td {
+    background-color: #d3ffa9;
+}
+
+
+.properties {
+    display: none;
+}
+
+ol.breadcrumb {
+    background-color: transparent;
+}
+
+#field:hover{
+    cursor: pointer;
+}
+
+nav.navbar-default {
+    background-color: #f9f9f9;
+    border-color: #f9f9f9;
+}
+
+.float-left{
+    float: left;
+}

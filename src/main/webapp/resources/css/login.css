@@ -2,7 +2,7 @@ body{
     color: #fff;
     font-family: "Trebuchet MS", Arial;
     background:url(#{request.contextPath}/resources/images/liftbox_background_30pers.jpg) no-repeat;
-    background-size: 100%;
+    background-size: cover;
 }
 .form_login {
     width: 70%;

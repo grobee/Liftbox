@@ -7,31 +7,82 @@
                 template="templates/default.xhtml">
     <ui:define name="includes">
         <h:outputScript library="javascript" name="upload.js"/>
+        <h:outputScript library="javascript" name="listfiles.js"/>
     </ui:define>
 
     <ui:define name="content">
         <h2>Liftbox listfiles</h2>
         <br/>
         <br/>
-        <h:panelGroup rendered="#{listfilesBean.showBackButton}">
-            <h:form>
-                <h:commandButton value="Go Back " action="#{listfilesBean.goBackPage}"/>
-            </h:form>
-        </h:panelGroup>
-        <br/>
-        <br/>
-        <table class="table table-bordered">
+        <ol class="breadcrumb">
+            <li class="active">Here comes to breadcrumb...</li>
+        </ol>
+        <div class="row">
+            <div class="col-md-6">
+                <h:panelGroup rendered="#{listfilesBean.showBackButton}" styleClass="float-left">
+                    <h:form id="myFrm">
+                        <h:commandButton id="btnback" action="#{listfilesBean.goBackPage}" style="display: none" />
+                        <button type="submit" id="myFrm:btnback"  name="myFrm:btnback" title="Back" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left" style="font-size: 1.2em"></span></button>
+                    </h:form>
+                </h:panelGroup>
+                &#160;&#160;
+                <button value="upload"
+                        class="btn btn-default"
+                        onclick=""
+                        data-toggle="modal"
+                        title="Upload file..."
+                        data-target="#fileUploadModal"><span class="glyphicon glyphicon-open" style="font-size: 1.2em"></span>
+                </button>
+                <button value=""
+                        class="btn btn-default"
+                        onclick=""
+                        data-toggle=""
+                        title="Create folder..."
+                        data-target=""><span class="glyphicon glyphicon-folder-open" style="font-size: 1.2em"></span>
+                </button>
+                &#160;&#160;
+                <span class="properties">
+                    <button value=""
+                            class="btn btn-default"
+                            onclick=""
+                            data-toggle=""
+                            title="Download..."
+                            data-target=""><span class="glyphicon glyphicon-save" style="font-size: 1.2em"></span>
+                    </button>
+                    <button value=""
+                            class="btn btn-default"
+                            onclick=""
+                            data-toggle=""
+                            title="Rename..."
+                            data-target=""><span class="glyphicon glyphicon-pencil" style="font-size: 1.2em"></span>
+                    </button>
+                    <button value=""
+                            class="btn btn-default"
+                            onclick=""
+                            data-toggle=""
+                            title="Delete..."
+                            data-target=""><span class="glyphicon glyphicon-trash" style="font-size: 1.2em"></span>
+                    </button>
+                </span>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+        <table class="table .table-responsive table-hover liftbox_hover">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Filename</th>
-                <th>Size</th>
+                <th class="col-md-1" style="padding-left: 12px">
+                    <input type="checkbox" title="Select all" id="check_all" />
+                </th>
+                <th class="col-md-8">Name</th>
+                <th class="col-md-3">Size</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="#{listfilesBean.getFolders(request.userPrincipal.name)}" var="folder" varStatus="counter">
-                <tr>
-                    <td><strong>[#{folder.id}]</strong></td>
+                <tr class="field">
+                    <td class="col-md-1" style="padding-left: 12px;" id="#{folder.id}"><input type="checkbox" class="check_field" /></td>
                     <td><strong><h:form>
                         <h:commandLink value="[#{folder.name}]"
                                        action="#{listfilesBean.goNextPage(folder.id,request.userPrincipal.name)}"/>
@@ -40,20 +91,14 @@
                 </tr>
             </c:forEach>
             <c:forEach items="#{listfilesBean.getFiles(request.userPrincipal.name)}" var="file">
-                <tr>
-                    <td>#{file.id}</td>
-                    <td>#{file.name}</td>
-                    <td>#{file.size}</td>
+                <tr class="field" id="#{file.id}">
+                    <td class="col-md-1" style="padding-left: 12px;"><input type="checkbox" class="check_field" /></td>
+                    <td class="col-md-8">#{file.name}</td>
+                    <td class="col-md-3">#{file.size}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <button value="upload"
-                class="btn btn-default"
-                onclick=""
-                data-toggle="modal"
-                data-target="#fileUploadModal">upload
-        </button>
 
         <div style="display: none" id="folderName">#{listfilesBean.getCurrentId(request.userPrincipal.name)}</div>
 

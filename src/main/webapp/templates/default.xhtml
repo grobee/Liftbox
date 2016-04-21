@@ -8,7 +8,9 @@
 <h:head>
     <title>Liftbox</title>
     <meta charset="UTF-8" content="text/html"/>
-    <h:outputStylesheet library="css" name="min/bootstrap.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/min/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/index.css" />
     <h:outputScript library="javascript" name="min/jquery-2.2.2.min.js"/>
     <h:outputScript library="javascript" name="min/bootstrap.min.js"/>
     <ui:insert name="includes"/>
@@ -18,19 +20,19 @@
 
     <div class="container">
         <nav class="navbar navbar-default">
-            <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#collapse" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
-                        <!--<span class="icon-bar"></span>-->
+                        <span class="glyphicon glyphicon-menu-hamburger"> </span>
                     </button>
-                    <a class="navbar-brand" href="#">Liftbox</a>
+                    <a class="navbar-brand"><span class="glyphicon glyphicon-cloud" style="font-size:2em; top: -6px;"> </span></a>
+                    <a class="navbar-brand" href="#{request.contextPath}/index.xhtml">Liftbox</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse" id="collapse">
                     <ul class="nav navbar-nav">
                         <ui:repeat value="#{menuBean.pages}" var="page">
                             <!--suppress ELValidationInJSP -->
@@ -40,10 +42,17 @@
                         </ui:repeat>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#{root}/logout">Logout</a></li>
+                        <li class="dropdown" >
+                            <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size: 1.2em"> </span>&#160;<span class="liftbox_color1">#{request.userPrincipal.name}</span><span class="caret"> </span> </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="none"><span class="glyphicon glyphicon-user"> </span>&#160;&#160;<span>#{request.userPrincipal.name}</span></a></li>
+                                <li><a class="none">ficandtamas92@gmail.com</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-cog"> </span>&#160;<span class="liftbox_color1">Account settings</span></a></li>
+                                <li><a href="#{root}/logout"><span class="glyphicon glyphicon-log-out"> </span>&#160;<span class="liftbox_color1">Logout</span></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
         </nav>
 
         <div class="content">
