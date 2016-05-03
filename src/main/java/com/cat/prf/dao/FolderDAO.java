@@ -5,6 +5,7 @@ import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
  * Project name: liftbox
  */
 public class FolderDAO extends GenericDAO<Folder, Long> {
-    private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(FolderDAO.class.getSimpleName());
     private static final long serialVersionUID = -5859058016736013679L;
 
     public FolderDAO() {
@@ -48,6 +49,15 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
         TypedQuery<Folder> userQuery = getEntityManager().createNamedQuery("getFolderId", Folder.class);
         userQuery.setParameter("username", username);
         return userQuery.getSingleResult().getFiles();
+    }
+
+    @Transactional
+    Folder createNewFolder(String username) {
+        Folder folder=new Folder();
+        folder.setName(username);
+        create(folder);
+
+    return folder;
     }
 }
 
