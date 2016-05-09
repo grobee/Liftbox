@@ -5,6 +5,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "folders_files", schema = "liftbox")
+@NamedQueries(
+        @NamedQuery(name = "findFolderFile", query = "select f from FolderFile f where f.filesId = :fileId")
+)
 public class FolderFile implements Serializable {
     private long folderId;
     private long filesId;

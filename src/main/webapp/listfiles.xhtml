@@ -2,7 +2,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 template="templates/default.xhtml">
     <ui:define name="includes">
@@ -21,8 +20,10 @@
             <div class="col-md-6">
                 <h:panelGroup rendered="#{listfilesBean.showBackButton}" styleClass="float-left">
                     <h:form id="myFrm">
-                        <h:commandButton id="btnback" action="#{listfilesBean.goBackPage}" style="display: none" />
-                        <button type="submit" id="myFrm:btnback"  name="myFrm:btnback" title="Back" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left" style="font-size: 1.2em"></span></button>
+                        <h:commandButton id="btnback" action="#{listfilesBean.goBackPage}" style="display: none"/>
+                        <button type="submit" id="myFrm:btnback" name="myFrm:btnback" title="Back"
+                                class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"
+                                                              style="font-size: 1.2em"></span></button>
                     </h:form>
                 </h:panelGroup>
                 &#160;&#160;
@@ -31,7 +32,8 @@
                         onclick=""
                         data-toggle="modal"
                         title="Upload file..."
-                        data-target="#fileUploadModal"><span class="glyphicon glyphicon-open" style="font-size: 1.2em"></span>
+                        data-target="#fileUploadModal"><span class="glyphicon glyphicon-open"
+                                                             style="font-size: 1.2em"></span>
                 </button>
                 <button value=""
                         class="btn btn-default"
@@ -65,36 +67,55 @@
                     </button>
                 </span>
             </div>
-            <br />
-            <br />
-            <br />
+            <br/>
+            <br/>
+            <br/>
         </div>
         <table class="table .table-responsive table-hover liftbox_hover">
             <thead>
             <tr>
-                <th class="col-md-1" style="padding-left: 12px">
-                    <input type="checkbox" title="Select all" id="check_all" />
-                </th>
+                <th></th>
                 <th class="col-md-8">Name</th>
                 <th class="col-md-3">Size</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="#{listfilesBean.getFolders(request.userPrincipal.name)}" var="folder" varStatus="counter">
                 <tr class="field">
-                    <td class="col-md-1" style="padding-left: 12px;" id="#{folder.id}"><input type="checkbox" class="check_field" /></td>
-                    <td><strong><h:form>
-                        <h:commandLink value="[#{folder.name}]"
-                                       action="#{listfilesBean.goNextPage(folder.id,request.userPrincipal.name)}"/>
-                    </h:form></strong></td>
-                    <td><strong>&lt;DIR&gt;</strong></td>
+                    <td class="col-md-1" style="padding-left: 12px;">
+                        d
+                    </td>
+                    <td>
+                        <strong>
+                            <h:form>
+                                <h:commandLink value="[#{folder.name}]"
+                                               action="#{listfilesBean.goNextPage(folder.id,request.userPrincipal.name)}"/>
+                            </h:form>
+                        </strong>
+                    </td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </c:forEach>
             <c:forEach items="#{listfilesBean.getFiles(request.userPrincipal.name)}" var="file">
                 <tr class="field" id="#{file.id}">
-                    <td class="col-md-1" style="padding-left: 12px;"><input type="checkbox" class="check_field" /></td>
-                    <td class="col-md-8">#{file.name}</td>
+                    <td class="col-md-1" style="padding-left: 12px;">
+                        -
+                    </td>
+
+                    <td class="col-md-8">
+                        <h:form>
+                            <h:commandLink action="#{listfilesBean.download(file.id)}" value="#{file.name}"/>
+                        </h:form>
+                    </td>
+
                     <td class="col-md-3">#{file.size}</td>
+                    <td>
+                        <h:form>
+                            <h:commandLink value="delete" action="#{listfilesBean.delete(file.id)}"/>
+                        </h:form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

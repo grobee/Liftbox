@@ -43,6 +43,7 @@
             <url-pattern>/index.xhtml</url-pattern>
             <url-pattern>/listfiles.xhtml</url-pattern>
             <url-pattern>/upload.xhtml</url-pattern>
+            <url-pattern>/logout</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>USER</role-name>
