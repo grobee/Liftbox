@@ -1,10 +1,16 @@
 package com.cat.prf.controller;
 
+import com.cat.prf.constants.Roles;
+import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.dao.UserDAO;
+import com.cat.prf.dao.UserRoleDAO;
+import com.cat.prf.entity.User;
+import com.cat.prf.entity.UserRole;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
@@ -15,7 +21,6 @@ import java.util.logging.Logger;
 
 @Named("registerBean")
 @SessionScoped
-
 public class RegisterBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(RegisterBean.class.getSimpleName());
@@ -23,10 +28,15 @@ public class RegisterBean implements Serializable {
     @Inject
     private UserDAO userDAO;
 
+    @Inject
+    UserRoleDAO userRoleDAO;
+
+    @Inject
+    FolderDAO folderDAO;
+
     private String uname;
     private String pass;
     private String email;
-
 
 
     public String getEmail() {
@@ -54,8 +64,14 @@ public class RegisterBean implements Serializable {
         this.pass = pass;
     }
 
-
+    @Transactional
     public void submit() {
-        userDAO.addUser(getUname(),getEmail(),getPass());
+        User user = userDAO.addUser(getUname(), getEmail(), getPass());
+
+        user.setRootfolder(folderDAO.createNewFolder(user.getUsername()));
+        userDAO.update(user);
+
+        UserRole role = new UserRole(user.getUsername(), Roles.USER.getName());
+        userRoleDAO.create(role);
     }
 }

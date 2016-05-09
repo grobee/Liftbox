@@ -12,6 +12,14 @@ public class UserRole implements Serializable {
     private String username;
     private String role;
 
+    public UserRole(String username, String role) {
+        this.username = username;
+        this.role = role;
+    }
+
+    public UserRole() {
+    }
+
     @Id
     public String getUsername() {
         return username;

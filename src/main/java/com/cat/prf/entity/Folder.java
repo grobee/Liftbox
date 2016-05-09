@@ -12,8 +12,6 @@ import java.util.List;
                 query = "select f from Folder f"),
         @NamedQuery(name = "selectSpecificFolder",
                 query = "select f from Folder f where f.id=:id")})
-
-
 public class Folder {
     private long id;
     private String name;

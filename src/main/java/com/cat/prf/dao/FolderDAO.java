@@ -1,6 +1,5 @@
 package com.cat.prf.dao;
 
-import com.cat.prf.controller.ListfilesBean;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
@@ -52,12 +51,12 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
     }
 
     @Transactional
-    Folder createNewFolder(String username) {
-        Folder folder=new Folder();
+    public Folder createNewFolder(String username) {
+        Folder folder = new Folder();
         folder.setName(username);
         create(folder);
 
-    return folder;
+        return folder;
     }
 }
 
