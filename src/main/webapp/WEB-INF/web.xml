@@ -20,7 +20,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>listfiles.xhtml</welcome-file>
     </welcome-file-list>
 
     <context-param>
@@ -40,9 +40,9 @@
         <display-name>User Constraint</display-name>
         <web-resource-collection>
             <web-resource-name>User Resources</web-resource-name>
-            <url-pattern>/index.xhtml</url-pattern>
             <url-pattern>/listfiles.xhtml</url-pattern>
             <url-pattern>/upload.xhtml</url-pattern>
+            <url-pattern>/logout</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>USER</role-name>

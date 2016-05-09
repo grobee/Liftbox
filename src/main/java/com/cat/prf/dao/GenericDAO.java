@@ -40,6 +40,11 @@ abstract public class GenericDAO<EntityType, IdentifierType> implements Serializ
         em.remove(entity);
     }
 
+    @Transactional
+    public void deleteEntity(EntityType entity) {
+        em.remove(entity);
+    }
+
     public boolean contains(EntityType entity) {
         return em.contains(entity);
     }
