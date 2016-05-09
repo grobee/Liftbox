@@ -35,6 +35,13 @@ public class UserDAO extends GenericDAO<User, Long> {
         return query.getResultList().size() != 0;
     }
 
+    public String getUserEmailAddress(String username) {
+        TypedQuery<User> query = getEntityManager().createNamedQuery("getEmailByUname", getEntityClass());
+        query.setParameter("username", username);
+        return query.getSingleResult().getEmail();
+
+    }
+
     @Transactional
     public User addUser(String username, String email, String password) {
         User user = new User();
@@ -46,5 +53,11 @@ public class UserDAO extends GenericDAO<User, Long> {
         create(user);
 
         return user;
+    }
+
+    public User getUserByName(String username) {
+        TypedQuery<User> query = getEntityManager().createNamedQuery("getEmailByUname", getEntityClass());
+        query.setParameter("username", username);
+        return query.getSingleResult();
     }
 }
