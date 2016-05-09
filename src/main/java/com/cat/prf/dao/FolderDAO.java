@@ -58,6 +58,20 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
 
         return folder;
     }
+
+
+    @Transactional
+    public void createNewFolder(String foldername, long currid) {
+
+        Folder folder = new Folder();
+        folder.setName(foldername);
+        create(folder);
+
+        TypedQuery<Folder> fileQuery = getEntityManager().createNamedQuery("selectSpecificFolder", Folder.class);
+        fileQuery.setParameter("id", currid);
+        fileQuery.getSingleResult().getFolders().add(folder);
+
+    }
 }
 
 

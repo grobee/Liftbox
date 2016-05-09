@@ -21,8 +21,10 @@
             <div class="col-md-6">
                 <h:panelGroup rendered="#{listfilesBean.showBackButton}" styleClass="float-left">
                     <h:form id="myFrm">
-                        <h:commandButton id="btnback" action="#{listfilesBean.goBackPage}" style="display: none" />
-                        <button type="submit" id="myFrm:btnback"  name="myFrm:btnback" title="Back" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left" style="font-size: 1.2em"></span></button>
+                        <h:commandButton id="btnback" action="#{listfilesBean.goBackPage}" style="display: none"/>
+                        <button type="submit" id="myFrm:btnback" name="myFrm:btnback" title="Back"
+                                class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"
+                                                              style="font-size: 1.2em"></span></button>
                     </h:form>
                 </h:panelGroup>
                 &#160;&#160;
@@ -31,14 +33,16 @@
                         onclick=""
                         data-toggle="modal"
                         title="Upload file..."
-                        data-target="#fileUploadModal"><span class="glyphicon glyphicon-open" style="font-size: 1.2em"></span>
+                        data-target="#fileUploadModal"><span class="glyphicon glyphicon-open"
+                                                             style="font-size: 1.2em"></span>
                 </button>
                 <button value=""
                         class="btn btn-default"
                         onclick=""
-                        data-toggle=""
+                        data-toggle="modal"
                         title="Create folder..."
-                        data-target=""><span class="glyphicon glyphicon-folder-open" style="font-size: 1.2em"></span>
+                        data-target="#myModal"><span class="glyphicon glyphicon-folder-open"
+                                                     style="font-size: 1.2em"></span>
                 </button>
                 &#160;&#160;
                 <span class="properties">
@@ -65,15 +69,15 @@
                     </button>
                 </span>
             </div>
-            <br />
-            <br />
-            <br />
+            <br/>
+            <br/>
+            <br/>
         </div>
         <table class="table .table-responsive table-hover liftbox_hover">
             <thead>
             <tr>
                 <th class="col-md-1" style="padding-left: 12px">
-                    <input type="checkbox" title="Select all" id="check_all" />
+                    <input type="checkbox" title="Select all" id="check_all"/>
                 </th>
                 <th class="col-md-8">Name</th>
                 <th class="col-md-3">Size</th>
@@ -82,7 +86,8 @@
             <tbody>
             <c:forEach items="#{listfilesBean.getFolders(request.userPrincipal.name)}" var="folder" varStatus="counter">
                 <tr class="field">
-                    <td class="col-md-1" style="padding-left: 12px;" id="#{folder.id}"><input type="checkbox" class="check_field" /></td>
+                    <td class="col-md-1" style="padding-left: 12px;" id="#{folder.id}"><input type="checkbox"
+                                                                                              class="check_field"/></td>
                     <td><strong><h:form>
                         <h:commandLink value="[#{folder.name}]"
                                        action="#{listfilesBean.goNextPage(folder.id,request.userPrincipal.name)}"/>
@@ -92,7 +97,7 @@
             </c:forEach>
             <c:forEach items="#{listfilesBean.getFiles(request.userPrincipal.name)}" var="file">
                 <tr class="field" id="#{file.id}">
-                    <td class="col-md-1" style="padding-left: 12px;"><input type="checkbox" class="check_field" /></td>
+                    <td class="col-md-1" style="padding-left: 12px;"><input type="checkbox" class="check_field"/></td>
                     <td class="col-md-8">#{file.name}</td>
                     <td class="col-md-3">#{file.size}</td>
                 </tr>
@@ -143,6 +148,29 @@
                                value="upload"/>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content"><h:form role="form" method="post" action="">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">Create new folder...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Enter Folder Name:</p>
+                        <h:inputText value="#{listfilesBean.newFolderName}" class="form-control" id="newfolder"/>
+                    </div>
+                    <div class="modal-footer">
+                        <h:commandButton class="btn btn-primary btn-md" value="Create" action="#{listfilesBean.createFolder()}"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </h:form>
+                </div>
+
             </div>
         </div>
     </ui:define>

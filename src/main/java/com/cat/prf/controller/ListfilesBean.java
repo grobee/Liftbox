@@ -24,6 +24,7 @@ public class ListfilesBean implements Serializable {
     private boolean firstRunFiles;
     private boolean firstRunFolders;
     private boolean showBackButton;
+    private String newFolderName;
 
 
     private int currentId = 0;
@@ -83,6 +84,14 @@ public class ListfilesBean implements Serializable {
         this.folders = folders;
     }
 
+    public String getNewFolderName() {
+        return newFolderName;
+    }
+
+    public void setNewFolderName(String newFolderName) {
+        this.newFolderName = newFolderName;
+    }
+
     public void goNextPage(int id, String username) {
 
         // Check whether the user is on the root page
@@ -130,6 +139,14 @@ public class ListfilesBean implements Serializable {
 
     public void setCurrentId(int currentId) {
         this.currentId = currentId;
+    }
+
+    public void createFolder() {
+        //LOGGER.info("Cratefolder " + newFolderName + " currentID " + currentId);
+        folderDAO.createNewFolder(newFolderName,currentId);
+
+        folders.clear();
+        folders.addAll(folderDAO.getFoldersDAO(currentId));
     }
 
 }
