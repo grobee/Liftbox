@@ -85,15 +85,10 @@ public class UserSettingsBean implements Serializable {
     public void save() {
         User u = userDAO.getUserByName(uname);
 
-        if (email.equals("")) {
-            LOGGER.info(email);
-            u.setEmail(email);
-        }
+        u.setEmail(email);
 
-        if (pass.equals("")) {
-            LOGGER.info(pass);
-            u.setPassword(DigestUtils.sha256Hex(pass));
-        }
+        u.setPassword(DigestUtils.sha256Hex(pass));
+
 
     }
 
