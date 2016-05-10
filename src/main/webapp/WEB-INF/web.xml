@@ -43,6 +43,7 @@
             <url-pattern>/index.xhtml</url-pattern>
             <url-pattern>/listfiles.xhtml</url-pattern>
             <url-pattern>/upload.xhtml</url-pattern>
+            <url-pattern>/logout</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>USER</role-name>
@@ -68,4 +69,21 @@
             <form-error-page>/login.xhtml?error=true</form-error-page>
         </form-login-config>
     </login-config>
+
+    <!--<context-param>-->
+    <!--<param-name>primefaces.UPLOADER</param-name>-->
+    <!--<param-value>auto|native|commons</param-value>-->
+    <!--</context-param>-->
+
+    <!--<filter>-->
+    <!--<filter-name>PrimeFaces FileUpload Filter</filter-name>-->
+    <!--<filter-class>-->
+    <!--org.primefaces.webapp.filter.FileUploadFilter-->
+    <!--</filter-class>-->
+    <!--</filter>-->
+
+    <!--<filter-mapping>-->
+    <!--<filter-name>PrimeFaces FileUpload Filter</filter-name>-->
+    <!--<servlet-name>Faces Servlet</servlet-name>-->
+    <!--</filter-mapping>-->
 </web-app>

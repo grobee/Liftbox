@@ -3,6 +3,8 @@ package com.cat.prf.dao;
 import com.cat.prf.entity.FolderFile;
 
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 @Named
 public class FolderFileDAO extends GenericDAO<FolderFile, Long> {
@@ -16,7 +18,11 @@ public class FolderFileDAO extends GenericDAO<FolderFile, Long> {
         super(FolderFile.class);
     }
 
-    public void doSomething() {
-
+    @Transactional
+    public void deleteByFile(long id) {
+        TypedQuery<FolderFile> query = getEntityManager().createNamedQuery("findFolderFile", getEntityClass());
+        query.setParameter("fileId", id);
+        FolderFile folderFile = query.getSingleResult();
+        deleteEntity(folderFile);
     }
 }

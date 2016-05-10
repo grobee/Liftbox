@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = "getEmailByUname",
                 query = "select u from User u where u.username = :username")
 
+
+        @NamedQuery(name = "getUserByName",
+                query = "select u from User u where u.username = :username")
 })
 public class User {
 

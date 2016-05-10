@@ -30,7 +30,7 @@ abstract public class GenericDAO<EntityType, IdentifierType> implements Serializ
     }
 
     @Transactional
-    public void update(EntityType entity) {
+    public void merge(EntityType entity) {
         em.merge(entity);
     }
 
@@ -38,6 +38,16 @@ abstract public class GenericDAO<EntityType, IdentifierType> implements Serializ
     public void delete(IdentifierType id) {
         EntityType entity = em.find(getEntityClass(), id);
         em.remove(entity);
+    }
+
+    @Transactional
+    public void deleteEntity(EntityType entity) {
+        em.remove(entity);
+    }
+
+    @Transactional
+    public void refresh(EntityType entity) {
+        em.refresh(entity);
     }
 
     public boolean contains(EntityType entity) {

@@ -5,7 +5,7 @@ import com.cat.prf.entity.Folder;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -20,7 +20,7 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
         super(Folder.class);
     }
 
-    public List<Folder> getFoldersDAO(long id) {
+    public Set<Folder> getFoldersDAO(long id) {
         TypedQuery<Folder> fileQuery = getEntityManager().createNamedQuery("selectSpecificFolder", Folder.class);
         fileQuery.setParameter("id", id);
         return fileQuery.getSingleResult().getFolders();
@@ -32,19 +32,19 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
         return (int) userQuery.getSingleResult().getId();
     }
 
-    public List<File> getFilesDAO(long id) {
+    public Set<File> getFilesDAO(long id) {
         TypedQuery<Folder> folderQuery = getEntityManager().createNamedQuery("selectSpecificFolder", Folder.class);
         folderQuery.setParameter("id", id);
         return folderQuery.getSingleResult().getFiles();
     }
 
-    public List<Folder> getFoldersByUnameDAO(String username) {
+    public Set<Folder> getFoldersByUnameDAO(String username) {
         TypedQuery<Folder> userQuery = getEntityManager().createNamedQuery("getFolderId", Folder.class);
         userQuery.setParameter("username", username);
         return userQuery.getSingleResult().getFolders();
     }
 
-    public List<File> getFilesByUnameDAO(String username) {
+    public Set<File> getFilesByUnameDAO(String username) {
         TypedQuery<Folder> userQuery = getEntityManager().createNamedQuery("getFolderId", Folder.class);
         userQuery.setParameter("username", username);
         return userQuery.getSingleResult().getFiles();
