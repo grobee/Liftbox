@@ -48,9 +48,8 @@ public class FolderFile implements Serializable {
         FolderFile that = (FolderFile) o;
 
         if (folderId != that.folderId) return false;
-        if (filesId != that.filesId) return false;
+        return filesId == that.filesId;
 
-        return true;
     }
 
     @Override
