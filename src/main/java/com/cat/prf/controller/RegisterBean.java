@@ -69,7 +69,7 @@ public class RegisterBean implements Serializable {
         User user = userDAO.addUser(getUname(), getEmail(), getPass());
 
         user.setRootfolder(folderDAO.createNewFolder(user.getUsername()));
-        userDAO.update(user);
+        userDAO.merge(user);
 
         UserRole role = new UserRole(user.getUsername(), Roles.USER.getName());
         userRoleDAO.create(role);
