@@ -55,15 +55,17 @@ public class AdminPanelBean implements Serializable {
         return role.getRole();
     }
 
-    public void setRole(ValueChangeEvent e) {
+    public void setRole(String uname) {
 
-        LOGGER.info("Setrole+ " + e.getNewValue());
-//        UserRole role = userRoleDAO.getRoleByUsername(uname);
-//
-//        if (role.getRole().equals("USER")) {
-//            role.setRole("ADMIN");
-//        }
-//        else role.setRole("USER");
+        UserRole role = userRoleDAO.getRoleByUsername(uname);
+
+        if (role.getRole().equals("USER")) {
+
+            role.setRole("ADMIN");
+        }
+        else {
+            role.setRole("USER");
+        }
 
     }
 

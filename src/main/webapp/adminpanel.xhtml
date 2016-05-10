@@ -20,7 +20,8 @@
             <tr>
                 <th class="col-md-1" style="padding-left: 12px">Username</th>
                 <th class="col-md-8">Email</th>
-                <th class="col-md-3">Role</th>
+                <th class="col-md-1">Role</th>
+                <th class="col-md-1"> </th>
             </tr>
             </thead>
             <tbody>
@@ -28,14 +29,15 @@
                 <tr class="field" >
                     <td class="col-md-1" style="padding-left: 12px;">#{user.username}</td>
                     <td class="col-md-8">#{user.email}</td>
-                    <td class="col-md-3">
+                    <td class="col-md-1">
 
-                        <h:selectOneMenu value="#{adminPanelBean.getRole(user.username)}"  onchange="submit()" valueChangeListener="#{adminPanelBean.setRole}">
-                            <f:selectItem itemValue="ADMIN" itemLabel="ADMIN" />
-                            <f:selectItem itemValue="USER" itemLabel="USER" />
-                        </h:selectOneMenu>
-
+                            #{adminPanelBean.getRole(user.username)}
                    </td>
+                    <td class="col-md-1">
+                        <h:form>
+                            <h:commandButton value="Switch"  action="#{adminPanelBean.setRole(user.username)}" />
+                        </h:form>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
