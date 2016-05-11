@@ -37,9 +37,8 @@ public class FolderFolder implements Serializable {
         FolderFolder that = (FolderFolder) o;
 
         if (folderId != that.folderId) return false;
-        if (foldersId != that.foldersId) return false;
+        return foldersId == that.foldersId;
 
-        return true;
     }
 
     @Override

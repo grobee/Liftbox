@@ -6,7 +6,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="templates/default.xhtml">
     <ui:define name="includes">
-        <h:outputScript library="javascript" name="listfiles.js"/>
         <h:outputStylesheet library="css" name="listfiles.css"/>
     </ui:define>
 
@@ -49,9 +48,9 @@
                 <button value=""
                         class="btn btn-default"
                         onclick=""
-                        data-toggle=""
+                        data-toggle="modal"
                         title="Create folder..."
-                        data-target=""><span class="glyphicon glyphicon-folder-open" style="font-size: 1.2em"></span>
+                        data-target="#myModal"><span class="glyphicon glyphicon-folder-open" style="font-size: 1.2em"></span>
                 </button>
                 &#160;&#160;
                 <span class="properties">
@@ -82,7 +81,6 @@
             <br/>
             <br/>
         </div>
-
         <p:dataTable id="folderTable" value="#{listFilesBean.getFolders()}" var="folder">
             <p:column>
                 <f:facet name="header">
@@ -133,5 +131,28 @@
                 </h:form>
             </p:column>
         </p:dataTable>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content"><h:form role="form" method="post" action="">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">Create new folder...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Enter Folder Name:</p>
+                        <h:inputText value="#{listFilesBean.newFolderName}" class="form-control" id="newfolder"/>
+                    </div>
+                    <div class="modal-footer">
+                        <h:commandButton class="btn btn-primary btn-md" value="Create" action="#{listFilesBean.createFolder()}"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </h:form>
+                </div>
+
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

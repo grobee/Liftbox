@@ -1,10 +1,10 @@
 package com.cat.prf.controller;
 
-import com.cat.prf.dao.FileDAO;
-import com.cat.prf.dao.FolderDAO;
-import com.cat.prf.dao.FolderFileDAO;
+import com.cat.prf.dao.*;
 import com.cat.prf.entity.Folder;
 import com.cat.prf.entity.FolderFile;
+import com.cat.prf.entity.Upload;
+import com.cat.prf.entity.User;
 import org.jboss.logging.Logger;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -15,10 +15,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.sql.Date;
 
 @Named
 @RequestScoped
 public class FileUploadBean {
+
+    @Inject
+    UploadDAO uploadDAO;
 
     @Inject
     ListFilesBean listfilesBean;
@@ -31,6 +35,9 @@ public class FileUploadBean {
 
     @Inject
     FolderFileDAO folderFileDAO;
+
+    @Inject
+    UserDAO userDAO;
 
     private static final Logger LOGGER = Logger.getLogger(FileUploadBean.class.getSimpleName());
 
@@ -51,9 +58,14 @@ public class FileUploadBean {
             return;
         }
 
-        String username = req.getUserPrincipal().getName();
-        File uploadFolder = new File(req.getServletContext().getRealPath("") + File.separator
-                + "Files" + File.separator + username);
+        String filePath = req.getServletContext().getRealPath("") + File.separator
+                + "Files";
+
+        for (Folder parent : listfilesBean.getPath()) {
+            filePath += java.io.File.separator + parent.getName();
+        }
+
+        File uploadFolder = new File(filePath);
 
         if (!uploadFolder.isDirectory()) {
             uploadFolder.mkdirs();
@@ -76,6 +88,9 @@ public class FileUploadBean {
 
         fileDAO.create(uploaded);
         folderFileDAO.create(new FolderFile(parent.getId(), uploaded.getId()));
+
+        User user = userDAO.getUserByName(listfilesBean.getUsername());
+        uploadDAO.create(new Upload(user, uploaded, new Date(System.currentTimeMillis())));
     }
 
     public UploadedFile getFile() {

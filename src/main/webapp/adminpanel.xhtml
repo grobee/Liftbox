@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                template="templates/default.xhtml">
+    <ui:define name="includes">
+        <h:outputScript library="javascript" name="listfiles.js"/>
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h2>Liftbox adminpanel</h2>
+        <br/><br/>
+
+
+        <table class="table .table-responsive table-hover liftbox_hover">
+            <thead>
+            <tr>
+                <th class="col-md-1" style="padding-left: 12px">Username</th>
+                <th class="col-md-8">Email</th>
+                <th class="col-md-3">Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="#{adminPanelBean.users}" var="user" varStatus="counter">
+                <tr class="field" >
+                    <td class="col-md-1" style="padding-left: 12px;">#{user.username}</td>
+                    <td class="col-md-8">#{user.email}</td>
+                    <td class="col-md-3">
+
+                        <h:selectOneMenu value="#{adminPanelBean.getRole(user.username)}"  onchange="submit()" valueChangeListener="#{adminPanelBean.setRole}">
+                            <f:selectItem itemValue="ADMIN" itemLabel="ADMIN" />
+                            <f:selectItem itemValue="USER" itemLabel="USER" />
+                        </h:selectOneMenu>
+
+                   </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+
+
+    </ui:define>
+</ui:composition>

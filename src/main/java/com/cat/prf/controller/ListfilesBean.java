@@ -1,11 +1,10 @@
 package com.cat.prf.controller;
 
-import com.cat.prf.dao.FileDAO;
-import com.cat.prf.dao.FolderDAO;
-import com.cat.prf.dao.FolderFileDAO;
-import com.cat.prf.dao.UserDAO;
+import com.cat.prf.dao.*;
+import com.cat.prf.entity.Download;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
+import com.cat.prf.entity.User;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -19,6 +18,7 @@ import javax.transaction.Transactional;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,6 +37,10 @@ public class ListFilesBean implements Serializable {
     private List<Folder> folders = new ArrayList<>();
     // Page path needed for navigation
     private List<Folder> path = new ArrayList<>();
+    private String newFolderName;
+
+    @Inject
+    private DownloadDAO downloadDAO;
 
     @Inject
     private FolderDAO folderDAO;
@@ -90,8 +94,12 @@ public class ListFilesBean implements Serializable {
     }
 
     public void goNextPage(long id) {
+        LOGGER.info("" + id);
+
         Folder folder = folderDAO.read(id);
         path.add(folder);
+
+        LOGGER.info(folder.getName() + " " + folder.getId());
 
         getFiles();
         getFolders();
@@ -102,6 +110,14 @@ public class ListFilesBean implements Serializable {
 
         getFiles();
         getFolders();
+    }
+
+    public String getNewFolderName() {
+        return newFolderName;
+    }
+
+    public void setNewFolderName(String newFolderName) {
+        this.newFolderName = newFolderName;
     }
 
     public Folder getCurrentFolder() {
@@ -129,7 +145,6 @@ public class ListFilesBean implements Serializable {
 
         File file = fileDAO.read(id);
 
-        String username = req.getUserPrincipal().getName();
         String filePath = req.getServletContext().getRealPath("") + java.io.File.separator
                 + "Files" + java.io.File.separator;
 
@@ -161,6 +176,9 @@ public class ListFilesBean implements Serializable {
             e.printStackTrace();
         }
 
+        User user = userDAO.getUserByName(getUsername());
+        downloadDAO.create(new Download(user, file, new Date(System.currentTimeMillis())));
+
         context.responseComplete();
     }
 
@@ -191,5 +209,17 @@ public class ListFilesBean implements Serializable {
         fileDAO.delete(id);
 
         return "listfiles.xhtml?faces-redirect=true";
+    }
+
+    public void createFolder() {
+        //LOGGER.info("Cratefolder " + newFolderName + " currentID " + currentId);
+        folderDAO.createNewFolder(newFolderName, getCurrentId());
+
+        folders.clear();
+        folders.addAll(folderDAO.getFoldersDAO(getCurrentId()));
+    }
+
+    public List<Folder> getPath() {
+        return path;
     }
 }
