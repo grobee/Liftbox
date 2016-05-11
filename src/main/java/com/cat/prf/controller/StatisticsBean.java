@@ -18,10 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Named
@@ -50,48 +47,58 @@ public class StatisticsBean {
         List<Download> downloadList = downloadDAO.getDownloadsByUser(user);
         List<Upload> uploadList = uploadDAO.getUploadsByUser(user);
 
-        HashMap<Date, Integer> downloadsMap = new HashMap<>();
-        HashMap<Date, Integer> uploadsMap = new HashMap<>();
+        TreeMap<Date, Integer> downloadsMap = new TreeMap<>();
+        TreeMap<Date, Integer> uploadsMap = new TreeMap<>();
 
         SimpleDateFormat format = new SimpleDateFormat("YYYY.MM.dd");
 
-        for(Upload upload : uploadList) {
+        for (Upload upload : uploadList) {
             downloadsMap.put(upload.getDate(), 0);
         }
 
-        for(Download download : downloadList) {
+        for (Download download : downloadList) {
             uploadsMap.put(download.getDate(), 0);
         }
 
-        for(Download download : downloadList) {
-            if(downloadsMap.containsKey(download.getDate())) {
+        int max = Integer.MIN_VALUE;
+
+        for (Download download : downloadList) {
+            if (downloadsMap.containsKey(download.getDate())) {
                 downloadsMap.put(download.getDate(), downloadsMap.get(download.getDate()) + 1);
             } else {
                 downloadsMap.put(download.getDate(), 1);
             }
+
+            if(downloadsMap.get(download.getDate()) > max) {
+                max = downloadsMap.get(download.getDate());
+            }
         }
 
-        for(Upload upload : uploadList) {
-            if(downloadsMap.containsKey(upload.getDate())) {
+        for (Upload upload : uploadList) {
+            if (uploadsMap.containsKey(upload.getDate())) {
                 uploadsMap.put(upload.getDate(), uploadsMap.get(upload.getDate()) + 1);
             } else {
                 uploadsMap.put(upload.getDate(), 1);
             }
-        }
 
-        LOGGER.info(downloadList.size() + " " + uploadList.size());
+            if(uploadsMap.get(upload.getDate()) > max) {
+                max = downloadsMap.get(upload.getDate());
+            }
+        }
 
         ChartSeries downloads = new ChartSeries();
         ChartSeries uploads = new ChartSeries();
         downloads.setLabel("Download");
         uploads.setLabel("Upload");
 
-        for(Map.Entry<Date, Integer> entry : downloadsMap.entrySet()) {
+        for (Map.Entry<Date, Integer> entry : downloadsMap.entrySet()) {
             downloads.set(format.format(entry.getKey()), entry.getValue());
+            LOGGER.info(String.valueOf(entry.getKey()));
         }
 
-        for(Map.Entry<Date, Integer> entry : uploadsMap.entrySet()) {
+        for (Map.Entry<Date, Integer> entry : uploadsMap.entrySet()) {
             uploads.set(format.format(entry.getKey()), entry.getValue());
+            LOGGER.info(String.valueOf(entry.getKey()));
         }
 
         model.addSeries(downloads);
@@ -105,7 +112,7 @@ public class StatisticsBean {
         Axis yAxis = model.getAxis(AxisType.Y);
         yAxis.setLabel("Download");
         yAxis.setMin(0);
-        yAxis.setMax(50);
+        yAxis.setMax(max);
     }
 
     @PostConstruct

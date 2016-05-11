@@ -177,7 +177,7 @@ public class ListFilesBean implements Serializable {
         }
 
         User user = userDAO.getUserByName(getUsername());
-        downloadDAO.create(new Download(user, file, new Date(System.currentTimeMillis())));
+        downloadDAO.create(new Download(user, new Date(System.currentTimeMillis())));
 
         context.responseComplete();
     }

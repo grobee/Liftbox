@@ -90,7 +90,7 @@ public class FileUploadBean {
         folderFileDAO.create(new FolderFile(parent.getId(), uploaded.getId()));
 
         User user = userDAO.getUserByName(listfilesBean.getUsername());
-        uploadDAO.create(new Upload(user, uploaded, new Date(System.currentTimeMillis())));
+        uploadDAO.create(new Upload(user, new Date(System.currentTimeMillis())));
     }
 
     public UploadedFile getFile() {

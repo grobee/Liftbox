@@ -15,12 +15,10 @@ public class Download {
     private long id;
     private Date date;
     private User user;
-    private File file;
 
-    public Download(User user, File file, Date date) {
+    public Download(User user, Date date) {
         this.date = date;
         this.user = user;
-        this.file = file;
     }
 
     public Download() {
@@ -51,14 +49,5 @@ public class Download {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @OneToOne
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 }
