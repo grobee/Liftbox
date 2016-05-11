@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<h:head>
+    <title>Liftbox</title>
+    <meta charset="UTF-8" content="text/html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/min/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/index.css" />
+    <h:outputStylesheet library="primefaces" name="primefaces.css"/>
+    <h:outputScript library="javascript" name="min/bootstrap.min.js"/>
+    <h:outputScript library="primefaces" name="primefaces.js"/>
+    <ui:insert name="includes"/>
+</h:head>
+<h:body>
+    <c:set var="root" value="#{request.contextPath}"/>
+
+    <div class="container">
+        <nav class="navbar navbar-default">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="glyphicon glyphicon-menu-hamburger"> </span>
+                    </button>
+                    <a class="navbar-brand"><span class="glyphicon glyphicon-cloud" style="font-size:2em; top: -6px;"> </span></a>
+                    <a class="navbar-brand" href="#{request.contextPath}/listfiles.xhtml">Liftbox</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="collapse">
+                    <ul class="nav navbar-nav">
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown" >
+                            <a href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user" style="font-size: 1.2em"> </span>&#160;<span class="liftbox_color1">#{request.userPrincipal.name}</span><span class="caret"> </span> </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="none"><span class="glyphicon glyphicon-user"> </span>&#160;&#160;<span>#{request.userPrincipal.name}</span></a></li>
+                                <li><a class="none">#{userSettingsBean.getOldEmail(request.userPrincipal.name)}</a></li>
+                                <ui:fragment rendered="#{adminPanelBean.getRole(request.userPrincipal.name)== 'ADMIN'}">
+                                    <li><a href="#{request.contextPath}/adminpanel.xhtml">
+                                            <span class="glyphicon glyphicon-briefcase"> </span>&#160;<span class="liftbox_color1">Admin panel</span></a></li>
+                                </ui:fragment>
+                                <li><a href="usersettings.xhtml"><span class="glyphicon glyphicon-cog"> </span>&#160;<span class="liftbox_color1">Account settings</span></a></li>
+                                <li><a href="#{root}/logout"><span class="glyphicon glyphicon-log-out"> </span>&#160;<span class="liftbox_color1">Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+        </nav>
+
+        <div class="content">
+            <ui:insert name="content">
+                [The page content comes here]
+            </ui:insert>
+        </div>
+    </div>
+    <div id="footer">
+
+    </div>
+</h:body>
+</html>

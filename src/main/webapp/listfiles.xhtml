@@ -3,28 +3,28 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
                 template="templates/default.xhtml">
     <ui:define name="includes">
-        <h:outputScript library="javascript" name="upload.js"/>
-        <h:outputScript library="javascript" name="listfiles.js"/>
+        <h:outputStylesheet library="css" name="listfiles.css"/>
     </ui:define>
 
     <ui:define name="content">
+
+
         <h2>Liftbox listfiles</h2>
         <br/>
         <br/>
-        <ol class="breadcrumb">
-            <li class="active">Here comes to breadcrumb...</li>
-        </ol>
         <div class="row">
             <div class="col-md-6">
-                <h:panelGroup rendered="#{listfilesBean.showBackButton}" styleClass="float-left">
+                <h:panelGroup rendered="#{listFilesBean.pathSize > 1}" styleClass="float-left">
                     <h:form id="myFrm">
-                        <h:commandButton id="btnback" action="#{listfilesBean.goBackPage}" style="display: none"/>
+                        <h:commandButton id="btnback" action="#{listFilesBean.goBackPage}" style="display: none"/>
                         <button type="submit" id="myFrm:btnback" name="myFrm:btnback" title="Back"
-                                class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"
-                                                              style="font-size: 1.2em"></span></button>
+                                class="btn btn-default">
+                            <span class="glyphicon glyphicon-arrow-left"
+                                  style="font-size: 1.2em"></span>
+                        </button>
                     </h:form>
                 </h:panelGroup>
                 &#160;&#160;
@@ -33,16 +33,16 @@
                         onclick=""
                         data-toggle="modal"
                         title="Upload file..."
-                        data-target="#fileUploadModal"><span class="glyphicon glyphicon-open"
-                                                             style="font-size: 1.2em"></span>
+                        data-target="#uploadModal">
+                    <span class="glyphicon glyphicon-open"
+                          style="font-size: 1.2em"></span>
                 </button>
                 <button value=""
                         class="btn btn-default"
                         onclick=""
                         data-toggle="modal"
                         title="Create folder..."
-                        data-target="#myModal"><span class="glyphicon glyphicon-folder-open"
-                                                     style="font-size: 1.2em"></span>
+                        data-target="#myModal"><span class="glyphicon glyphicon-folder-open" style="font-size: 1.2em"></span>
                 </button>
                 &#160;&#160;
                 <span class="properties">
@@ -73,101 +73,62 @@
             <br/>
             <br/>
         </div>
-        <table class="table .table-responsive table-hover liftbox_hover">
-            <thead>
-            <tr>
-                <th class="col-md-1"></th>
-                <th class="col-md-7">Name</th>
-                <th class="col-md-3">Size</th>
-                <th class="col-md-1">Delete</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="#{listfilesBean.getFolders(request.userPrincipal.name)}" var="folder" varStatus="counter">
-                <tr class="field">
-                    <td class="col-md-1" style="padding-left: 12px;">
-                        <span class="glyphicon glyphicon-folder-close" style="font-size: 1.2em"></span>
-                    </td>
-                    <td>
-                        <strong>
-                            <h:form>
-                                <h:commandLink value="[#{folder.name}]"
-                                               action="#{listfilesBean.goNextPage(folder.id,request.userPrincipal.name)}" title="Open folder"/>
-                            </h:form>
-                        </strong>
-                    </td>
-                    <td><span>DIR</span></td>
-                    <td></td>
-                </tr>
-            </c:forEach>
-            <c:forEach items="#{listfilesBean.getFiles(request.userPrincipal.name)}" var="file">
-                <tr class="field" id="#{file.id}">
-                    <td class="col-md-1" style="padding-left: 12px;">
-                        <span class="glyphicon glyphicon-file" style="font-size: 1.2em"></span>
-                    </td>
+        <p:dataTable id="folderTable" value="#{listFilesBean.getFolders()}" var="folder" style="font-size:14px;">
+            <p:column style="width: 40px">
+                <f:facet name="header">
+                </f:facet>
+                d
+            </p:column>
 
-                    <td class="col-md-7">
-                        <h:form>
-                            <h:commandLink action="#{listfilesBean.download(file.id)}" value="#{file.name}" title="Download file"/>
-                        </h:form>
-                    </td>
+            <p:column>
+                <f:facet name="header">
+                    Name
+                </f:facet>
+                <strong>
+                    <h:form>
+                        <h:commandLink value="[#{folder.name}]"
+                                       action="#{listFilesBean.goNextPage(folder.id)}"/>
+                    </h:form>
+                </strong>
+            </p:column  >
 
-                    <td class="col-md-3">#{file.size}</td>
-                    <td class="col-md-1">
-                        <h:form id="formdel">
-                            <h:commandLink action="#{listfilesBean.delete(file.id)}" class="glyphicon glyphicon-trash trash"/>
-                        </h:form>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+            <p:column style="width: 120px">
+                <f:facet name="header">
+                    Size
+                </f:facet>
+            </p:column>
 
-        <div style="display: none" id="folderName">#{listfilesBean.getCurrentId(request.userPrincipal.name)}</div>
+            <p:column style="width: 60px">
 
-        <div id="fileUploadModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Upload New Files</h4>
-                    </div>
-                    <div id="progressBarParent" class="modal-body">
-                        <form enctype="multipart/form-data" method="post" accept-charset="UTF-8">
-                            <div class="form-group">
-                                <label style="width: 100%" class="btn btn-primary" for="fileUpload">
-                                    <input onchange="filesChanged()"
-                                           multiple="multiple"
-                                           id="fileUpload"
-                                           type="file"
-                                           style="display: none"
-                                           name="files"/>
-                                    select files
-                                </label>
-                                <br/> <br/>
-                                <div id="filesDiv"></div>
-                            </div>
-                        </form>
+            </p:column>
+        </p:dataTable>
+        <p:dataTable id="fileTable" value="#{listFilesBean.getFiles()}" var="file" style="font-size:14px;">
+            <p:column style="width: 40px">
+                -
+            </p:column>
 
-                        <div id="progressBarContainerDiv" style="padding-left: 5%; display: block">
-                            <div class="progress" style="display: block; width: 93%">
-                                <div id="progressBarDiv" class="progress-bar" role="progressbar"
-                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button"
-                               style="width: 100%"
-                               class="btn btn-success"
-                               onclick="upload()"
-                               multiple="multiple"
-                               value="upload"/>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <p:column>
+                <h:form>
+                    <h:commandLink action="#{listFilesBean.download(file.id)}" value="#{file.name}"/>
+                </h:form>
+            </p:column>
+
+            <p:column style="width: 120px">
+                <h:outputText value="#{(file.size / 1024) / 1024}">
+                    <f:convertNumber groupingUsed="true" maxFractionDigits="3"/>
+                </h:outputText>
+                MB
+            </p:column>
+
+            <p:column style="width: 60px">
+                <h:form>
+                    <h:commandLink action="#{listFilesBean.delete(file.id)}">
+                        <span class="glyphicon glyphicon-trash"
+                              style="font-size: 1.2em"></span>
+                    </h:commandLink>
+                </h:form>
+            </p:column>
+        </p:dataTable>
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -180,10 +141,10 @@
                     </div>
                     <div class="modal-body">
                         <p>Enter Folder Name:</p>
-                        <h:inputText value="#{listfilesBean.newFolderName}" class="form-control" id="newfolder"/>
+                        <h:inputText value="#{listFilesBean.newFolderName}" class="form-control" id="newfolder"/>
                     </div>
                     <div class="modal-footer">
-                        <h:commandButton class="btn btn-primary btn-md" value="Create" action="#{listfilesBean.createFolder()}"/>
+                        <h:commandButton class="btn btn-primary btn-md" value="Create" action="#{listFilesBean.createFolder()}"/>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </h:form>
@@ -191,5 +152,25 @@
 
             </div>
         </div>
+
+        <div id="uploadModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <h:form enctype="multipart/form-data">
+                        <p:fileUpload value="#{fileUploadBean.file}" mode="advanced" multiple="true" update="folderTable fileTable"  style="font-size:14px;"
+                                      fileUploadListener="#{fileUploadBean.handleFileUpload}">
+                        </p:fileUpload>
+                    </h:form>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
     </ui:define>
 </ui:composition>

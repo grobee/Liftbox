@@ -11,8 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/min/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/index.css" />
+    <h:outputStylesheet library="primefaces" name="primefaces.css"/>
     <h:outputScript library="javascript" name="min/bootstrap.min.js"/>
-    <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+    <h:outputScript library="javascript" name="main.js"/>
+    <h:outputScript library="primefaces" name="primefaces.js"/>
     <ui:insert name="includes"/>
 </h:head>
 <h:body>
@@ -28,7 +30,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"> </span>
                     </button>
                     <a class="navbar-brand"><span class="glyphicon glyphicon-cloud" style="font-size:2em; top: -6px;"> </span></a>
-                    <a class="navbar-brand" href="#{request.contextPath}/index.xhtml">Liftbox</a>
+                    <a class="navbar-brand" href="#{request.contextPath}/listfiles.xhtml">Liftbox</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->

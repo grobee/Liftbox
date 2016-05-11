@@ -29,7 +29,6 @@ public class AdminPanelBean implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(AdminPanelBean.class.getSimpleName());
 
-
     private List<User> users = new ArrayList<>();
 
     @Inject
@@ -37,6 +36,8 @@ public class AdminPanelBean implements Serializable {
 
     @Inject
     UserRoleDAO userRoleDAO;
+
+    private String selectedRole;
 
 
     public List<User> getUsers() {
@@ -55,7 +56,7 @@ public class AdminPanelBean implements Serializable {
         return role.getRole();
     }
 
-    public void setRole(String uname) {
+    public String setRole(String uname) {
 
         UserRole role = userRoleDAO.getRoleByUsername(uname);
 
@@ -67,8 +68,16 @@ public class AdminPanelBean implements Serializable {
             role.setRole("USER");
         }
 
+        userRoleDAO.merge(role);
+        return "adminpanel.xhtml?faces-redirect=true";
     }
 
+    public String getSelectedRole() {
+        return selectedRole;
+    }
 
+    public void setSelectedRole(String selectedRole) {
+        this.selectedRole = selectedRole;
+    }
 }
 

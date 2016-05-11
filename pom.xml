@@ -229,13 +229,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.bootsfaces</groupId>
-            <artifactId>bootsfaces</artifactId>
-            <version>0.8.5</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
             <version>4.0.0</version>
@@ -246,7 +239,6 @@
             <artifactId>all-themes</artifactId>
             <version>1.0.8</version>
         </dependency>
-
 
     </dependencies>
 

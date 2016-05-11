@@ -2,15 +2,13 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                template="templates/default.xhtml">
-
+                template="/templates/default.xhtml">
+    <ui:define name="includes">
+    </ui:define>
 
     <ui:define name="content">
         <h2>Liftbox adminpanel</h2>
         <br/><br/>
-
 
         <table class="table .table-responsive table-hover liftbox_hover">
             <thead>
@@ -18,28 +16,29 @@
                 <th class="col-md-1" style="padding-left: 12px">Username</th>
                 <th class="col-md-8">Email</th>
                 <th class="col-md-1">Role</th>
-                <th class="col-md-1"> </th>
+                <th class="col-md-1"></th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="#{adminPanelBean.users}" var="user" varStatus="counter">
-                <tr class="field" >
-                    <td class="col-md-1" style="padding-left: 12px;">#{user.username}</td>
-                    <td class="col-md-8">#{user.email}</td>
-                    <td class="col-md-1">
-
+            <ui:repeat value="#{adminPanelBean.users}" var="user">
+                <ui:fragment rendered="#{!user.username.equals(request.userPrincipal.name)}">
+                    <tr class="field">
+                        <td class="col-md-1" style="padding-left: 12px;">#{user.username}</td>
+                        <td class="col-md-8">#{user.email}</td>
+                        <td class="col-md-1">
                             #{adminPanelBean.getRole(user.username)}
-                   </td>
-                    <td class="col-md-1">
-                        <h:form>
-                            <h:commandButton value="Switch"  action="#{adminPanelBean.setRole(user.username)}" />
-                        </h:form>
-                    </td>
-                </tr>
-            </c:forEach>
+                        </td>
+                        <td class="col-md-1">
+                            <h:form>
+                                <h:commandButton value="Switch" action="#{adminPanelBean.setRole(user.username)}"
+                                                 styleClass="btn btn-default"/>
+                            </h:form>
+                        </td>
+                    </tr>
+                </ui:fragment>
+            </ui:repeat>
             </tbody>
         </table>
-
 
 
     </ui:define>
