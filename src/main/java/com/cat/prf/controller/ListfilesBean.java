@@ -95,11 +95,13 @@ public class ListFilesBean implements Serializable {
         return "listfiles.xhtml?faces-redirect=true";
     }
 
-    public void goBackPage() {
+    public String goBackPage() {
         path.remove(path.size() - 1);
 
         getFiles();
         getFolders();
+
+        return "listfiles.xhtml?faces-redirect=true";
     }
 
     public String getNewFolderName() {
