@@ -66,3 +66,28 @@ nav.navbar-default {
 .trash:hover{
     text-decoration: none;
 }
+
+.ui-widget-content{
+    border: 1px solid transparent;
+}
+
+.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th{
+    border-color: transparent;
+}
+
+.ui-datatable-odd {
+    background-color: transparent;
+}
+
+.ui-datatable-empty-message{
+    display: none;
+}
+
+.ui-datatable thead th{
+    background: transparent !important;
+    /*border: none !important;*/
+    box-shadow: none !important;
+    border-bottom: 2px solid #ddd !important;
+    text-align: left !important;
+    cursor: auto !important;
+}

@@ -4,6 +4,7 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 template="templates/default.xhtml">
     <ui:define name="includes">
         <h:outputStylesheet library="css" name="listfiles.css"/>
@@ -73,54 +74,53 @@
             <br/>
             <br/>
         </div>
-        <p:dataTable id="folderTable" value="#{listFilesBean.getFolders()}" var="folder" style="font-size:14px;">
-            <p:column style="width: 40px">
+        <p:dataTable class="table .table-responsive table-hover" id="folderTable" value="#{listFilesBean.getFolders()}" var="folder" style="font-size:14px; margin-bottom: 0px">
+            <p:column class="col-md-1" style="text-align: center">
                 <f:facet name="header">
-                </f:facet>
-                d
-            </p:column>
+                </f:facet><span class="glyphicon glyphicon-folder-close" style="font-size: 1.2em"></span></p:column>
 
-            <p:column>
-                <f:facet name="header">
-                    Name
-                </f:facet>
+            <p:column class="col-md-7">
+                <f:facet name="header">Name</f:facet>
                 <strong>
                     <h:form>
-                        <h:commandLink value="[#{folder.name}]"
+                        <h:commandLink  value="[#{folder.name}]"
                                        action="#{listFilesBean.goNextPage(folder.id)}"/>
                     </h:form>
                 </strong>
-            </p:column  >
-
-            <p:column style="width: 120px">
-                <f:facet name="header">
-                    Size
-                </f:facet>
             </p:column>
 
-            <p:column style="width: 60px">
+            <p:column class="col-md-3">
+                <f:facet name="header">Size</f:facet>
+            </p:column>
+
+            <p:column class="col-md-1">
 
             </p:column>
         </p:dataTable>
-        <p:dataTable id="fileTable" value="#{listFilesBean.getFiles()}" var="file" style="font-size:14px;">
-            <p:column style="width: 40px">
-                -
+        <p:dataTable
+                class="table .table-responsive table-hover"
+                id="fileTable"
+                value="#{listFilesBean.getFiles()}"
+                var="file"
+                style="font-size:14px;">
+            <p:column class="col-md-1" style="text-align: center">
+                <span class="glyphicon glyphicon-file" style="font-size: 1.2em"></span>
             </p:column>
 
-            <p:column>
+            <p:column class="col-md-7">
                 <h:form>
                     <h:commandLink action="#{listFilesBean.download(file.id)}" value="#{file.name}"/>
                 </h:form>
             </p:column>
 
-            <p:column style="width: 120px">
+            <p:column class="col-md-3">
                 <h:outputText value="#{(file.size / 1024) / 1024}">
                     <f:convertNumber groupingUsed="true" maxFractionDigits="3"/>
                 </h:outputText>
                 MB
             </p:column>
 
-            <p:column style="width: 60px">
+            <p:column class="col-md-1" style="text-align: center">
                 <h:form>
                     <h:commandLink action="#{listFilesBean.delete(file.id)}">
                         <span class="glyphicon glyphicon-trash"
@@ -141,7 +141,7 @@
                     </div>
                     <div class="modal-body">
                         <p>Enter Folder Name:</p>
-                        <h:inputText value="#{listFilesBean.newFolderName}" class="form-control" id="newfolder"/>
+                        <h:inputText a:autofocus="true" value="#{listFilesBean.newFolderName}" class="form-control" id="newfolder"/>
                     </div>
                     <div class="modal-footer">
                         <h:commandButton class="btn btn-primary btn-md" value="Create" action="#{listFilesBean.createFolder()}"/>
@@ -155,9 +155,12 @@
 
         <div id="uploadModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
                 <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">Upload new files...</h4>
+                    </div>
                     <h:form enctype="multipart/form-data">
                         <p:fileUpload value="#{fileUploadBean.file}" mode="advanced" multiple="true" update="folderTable fileTable"  style="font-size:14px;"
                                       fileUploadListener="#{fileUploadBean.handleFileUpload}">
