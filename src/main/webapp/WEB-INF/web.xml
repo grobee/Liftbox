@@ -41,7 +41,6 @@
         <web-resource-collection>
             <web-resource-name>User Resources</web-resource-name>
             <url-pattern>/listfiles.xhtml</url-pattern>
-            <url-pattern>/upload.xhtml</url-pattern>
             <url-pattern>/usersettings.xhtml</url-pattern>
             <url-pattern>/logout</url-pattern>
         </web-resource-collection>
@@ -55,7 +54,7 @@
         <display-name>Admin Constraint</display-name>
         <web-resource-collection>
             <web-resource-name>User Resources</web-resource-name>
-            <url-pattern>/adminpanel.xhtml</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>ADMIN</role-name>
@@ -70,4 +69,8 @@
         </form-login-config>
     </login-config>
 
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>bootstrap</param-value>
+    </context-param>
 </web-app>
