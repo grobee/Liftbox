@@ -85,9 +85,22 @@ nav.navbar-default {
 
 .ui-datatable thead th{
     background: transparent !important;
-    /*border: none !important;*/
     box-shadow: none !important;
     border-bottom: 2px solid #ddd !important;
     text-align: left !important;
     cursor: auto !important;
+}
+
+.ui-fileupload-files{
+    word-break:break-all;
+}
+
+.table tbody > tr > td {
+    vertical-align: middle;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.link_black, .link_black:hover{
+    color: #000;
 }

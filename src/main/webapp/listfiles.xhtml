@@ -46,30 +46,6 @@
                         data-target="#myModal"><span class="glyphicon glyphicon-folder-open"
                                                      style="font-size: 1.2em"></span>
                 </button>
-                &#160;&#160;
-                <span class="properties">
-                    <button value=""
-                            class="btn btn-default"
-                            onclick=""
-                            data-toggle=""
-                            title="Download..."
-                            data-target=""><span class="glyphicon glyphicon-save" style="font-size: 1.2em"></span>
-                    </button>
-                    <button value=""
-                            class="btn btn-default"
-                            onclick=""
-                            data-toggle=""
-                            title="Rename..."
-                            data-target=""><span class="glyphicon glyphicon-pencil" style="font-size: 1.2em"></span>
-                    </button>
-                    <button value=""
-                            class="btn btn-default"
-                            onclick=""
-                            data-toggle=""
-                            title="Delete..."
-                            data-target=""><span class="glyphicon glyphicon-trash" style="font-size: 1.2em"></span>
-                    </button>
-                </span>
             </div>
             <br/>
             <br/>
@@ -78,7 +54,7 @@
         <p:dataTable class="table .table-responsive table-hover" id="folderTable" value="#{listFilesBean.getFolders()}" var="folder" style="font-size:14px; margin-bottom: 0px">
             <p:column class="col-md-1" style="text-align: center">
                 <f:facet name="header">
-                </f:facet><span class="glyphicon glyphicon-folder-close" style="font-size: 1.2em"></span></p:column>
+                </f:facet><span class="glyphicon glyphicon-folder-close" style="font-size: 1.5em"></span></p:column>
 
             <p:column class="col-md-7">
                 <f:facet name="header">Name</f:facet>
@@ -91,7 +67,7 @@
             </p:column>
 
             <p:column class="col-md-3">
-                <f:facet name="header">Size</f:facet>
+                <f:facet name="header">Size</f:facet>DIR
             </p:column>
 
             <p:column class="col-md-1">
@@ -105,7 +81,7 @@
                 var="file"
                 style="font-size:14px;">
             <p:column class="col-md-1" style="text-align: center">
-                <span class="glyphicon glyphicon-file" style="font-size: 1.2em"></span>
+                <span class="glyphicon glyphicon-file" style="font-size: 1.5em"></span>
             </p:column>
 
             <p:column class="col-md-7">
@@ -123,9 +99,9 @@
 
             <p:column class="col-md-1" style="text-align: center">
                 <h:form>
-                    <h:commandLink action="#{listFilesBean.delete(file.id)}">
+                    <h:commandLink onclick="if (! confirm('Really want to do that?')) return false" action="#{listFilesBean.delete(file.id)}" hreflang="javascript:void(0);">
                         <span class="glyphicon glyphicon-trash"
-                              style="font-size: 1.2em"></span>
+                              style="font-size: 1.5em"></span>
                     </h:commandLink>
                 </h:form>
             </p:column>

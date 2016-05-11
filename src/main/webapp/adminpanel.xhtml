@@ -30,14 +30,14 @@
                         </td>
                         <td>
                             <h:form>
-                                <h:commandLink action="#{adminPanelBean.deleteUser(user.id)}">
-                                    <span class="glyphicon glyphicon-remove"></span>
+                                <h:commandLink title="Delete User" onclick="if (! confirm('Really want to do that?')) return false" action="#{adminPanelBean.deleteUser(user.id)}">
+                                    <span class="glyphicon glyphicon-remove link_black" style="font-size: 1.5em"></span>
                                 </h:commandLink>
                             </h:form>
                         </td>
                         <td class="col-md-1">
                             <h:form>
-                                <h:commandButton value="Switch" action="#{adminPanelBean.setRole(user.username)}"
+                                <h:commandButton title="Switch Role" value="Switch" action="#{adminPanelBean.setRole(user.username)}"
                                                  styleClass="btn btn-default"/>
                             </h:form>
                         </td>
