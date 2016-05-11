@@ -1,19 +1,11 @@
 package com.cat.prf.controller;
 
-/**
- * Created by tommy on 2016. 05. 09..
- * Project name: liftbox
- */
 
-import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.dao.UserDAO;
 import com.cat.prf.dao.UserRoleDAO;
-import com.cat.prf.entity.File;
-import com.cat.prf.entity.Folder;
 import com.cat.prf.entity.User;
 import com.cat.prf.entity.UserRole;
 
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

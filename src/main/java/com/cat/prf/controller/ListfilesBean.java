@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 
@@ -85,24 +87,14 @@ public class ListFilesBean implements Serializable {
         return path.size();
     }
 
-    public void setFiles(List<File> files) {
-        this.files = files;
-    }
-
-    public void setFolders(List<Folder> folders) {
-        this.folders = folders;
-    }
-
-    public void goNextPage(long id) {
-        LOGGER.info("" + id);
-
+    public String goNextPage(long id) {
         Folder folder = folderDAO.read(id);
         path.add(folder);
 
-        LOGGER.info(folder.getName() + " " + folder.getId());
-
         getFiles();
         getFolders();
+
+        return "listfiles.xhtml?faces-redirect=true";
     }
 
     public void goBackPage() {

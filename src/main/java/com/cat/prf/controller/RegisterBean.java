@@ -14,11 +14,6 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-/**
- * Created by tommy on 2016. 05. 02..
- * Project name: liftbox
- */
-
 @Named("registerBean")
 @SessionScoped
 public class RegisterBean implements Serializable {

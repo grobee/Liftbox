@@ -1,16 +1,9 @@
 package com.cat.prf.controller;
 
-/**
- * Created by tommy on 2016. 05. 09..
- * Project name: liftbox
- */
-
-import com.cat.prf.constants.Roles;
 import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.dao.UserDAO;
 import com.cat.prf.dao.UserRoleDAO;
 import com.cat.prf.entity.User;
-import com.cat.prf.entity.UserRole;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.enterprise.context.SessionScoped;
@@ -19,11 +12,6 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.logging.Logger;
-
-/**
- * Created by tommy on 2016. 05. 02..
- * Project name: liftbox
- */
 
 @Named("userSettingsBean")
 @SessionScoped

@@ -42,7 +42,8 @@
                         onclick=""
                         data-toggle="modal"
                         title="Create folder..."
-                        data-target="#myModal"><span class="glyphicon glyphicon-folder-open" style="font-size: 1.2em"></span>
+                        data-target="#myModal"><span class="glyphicon glyphicon-folder-open"
+                                                     style="font-size: 1.2em"></span>
                 </button>
                 &#160;&#160;
                 <span class="properties">
@@ -90,7 +91,7 @@
                                        action="#{listFilesBean.goNextPage(folder.id)}"/>
                     </h:form>
                 </strong>
-            </p:column  >
+            </p:column>
 
             <p:column style="width: 120px">
                 <f:facet name="header">
@@ -144,7 +145,8 @@
                         <h:inputText value="#{listFilesBean.newFolderName}" class="form-control" id="newfolder"/>
                     </div>
                     <div class="modal-footer">
-                        <h:commandButton class="btn btn-primary btn-md" value="Create" action="#{listFilesBean.createFolder()}"/>
+                        <h:commandButton class="btn btn-primary btn-md" value="Create"
+                                         action="#{listFilesBean.createFolder()}"/>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </h:form>
@@ -159,18 +161,13 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <h:form enctype="multipart/form-data">
-                        <p:fileUpload value="#{fileUploadBean.file}" mode="advanced" multiple="true" update="folderTable fileTable"  style="font-size:14px;"
+                        <p:fileUpload value="#{fileUploadBean.file}" mode="advanced" multiple="true"
+                                      update="folderTable fileTable" style="font-size:14px;"
                                       fileUploadListener="#{fileUploadBean.handleFileUpload}">
                         </p:fileUpload>
                     </h:form>
-
-
                 </div>
-
             </div>
         </div>
-
-
-
     </ui:define>
 </ui:composition>

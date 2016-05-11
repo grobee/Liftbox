@@ -49,7 +49,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="none"><span class="glyphicon glyphicon-user"> </span>&#160;&#160;<span>#{request.userPrincipal.name}</span></a></li>
                                 <li><a class="none">#{userSettingsBean.getOldEmail(request.userPrincipal.name)}</a></li>
-                                <li><a href="usersettings.xhtml"><span class="glyphicon glyphicon-cog"> </span>&#160;<span class="liftbox_color1">Account settings</span></a></li>
+                                <li><a href="#{root}/usersettings.xhtml"><span class="glyphicon glyphicon-cog"> </span>&#160;<span class="liftbox_color1">Account settings</span></a></li>
                                 <li><a href="#{root}/logout"><span class="glyphicon glyphicon-log-out"> </span>&#160;<span class="liftbox_color1">Logout</span></a></li>
                             </ul>
                         </li>
