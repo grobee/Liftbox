@@ -28,6 +28,13 @@
                         <td class="col-md-1">
                             #{adminPanelBean.getRole(user.username)}
                         </td>
+                        <td>
+                            <h:form>
+                                <h:commandLink action="#{adminPanelBean.deleteUser(user.id)}">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </h:commandLink>
+                            </h:form>
+                        </td>
                         <td class="col-md-1">
                             <h:form>
                                 <h:commandButton value="Switch" action="#{adminPanelBean.setRole(user.username)}"

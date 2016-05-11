@@ -1,14 +1,19 @@
 package com.cat.prf.controller;
 
 
+import com.cat.prf.dao.DownloadDAO;
+import com.cat.prf.dao.UploadDAO;
 import com.cat.prf.dao.UserDAO;
 import com.cat.prf.dao.UserRoleDAO;
+import com.cat.prf.entity.Download;
+import com.cat.prf.entity.Upload;
 import com.cat.prf.entity.User;
 import com.cat.prf.entity.UserRole;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,12 @@ public class AdminPanelBean implements Serializable {
 
     @Inject
     UserRoleDAO userRoleDAO;
+
+    @Inject
+    UploadDAO uploadDAO;
+
+    @Inject
+    DownloadDAO downloadDAO;
 
     private String selectedRole;
 
@@ -61,6 +72,28 @@ public class AdminPanelBean implements Serializable {
         }
 
         userRoleDAO.merge(role);
+        return "adminpanel.xhtml?faces-redirect=true";
+    }
+
+    @Transactional
+    public String deleteUser(int id) {
+        User user = userDAO.read(id);
+
+        UserRole role = userRoleDAO.getRoleByUsername(user.getUsername());
+        userRoleDAO.deleteEntity(role);
+
+        List<Download> downloads = downloadDAO.getDownloadsByUser(user);
+        for(Download download : downloads) {
+            downloadDAO.deleteEntity(download);
+        }
+
+        List<Upload> uploads = uploadDAO.getUploadsByUser(user);
+        for(Upload upload : uploads) {
+            uploadDAO.deleteEntity(upload);
+        }
+
+        userDAO.delete(id);
+
         return "adminpanel.xhtml?faces-redirect=true";
     }
 

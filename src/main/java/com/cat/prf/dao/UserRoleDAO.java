@@ -15,7 +15,6 @@ public class UserRoleDAO extends GenericDAO<UserRole, Long> {
         TypedQuery<UserRole> query = getEntityManager().createQuery("select u from UserRole u where u.username = :username", getEntityClass());
         query.setParameter("username", username);
         return query.getSingleResult();
-
     }
 
 }

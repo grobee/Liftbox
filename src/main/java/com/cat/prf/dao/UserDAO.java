@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-public class UserDAO extends GenericDAO<User, Long> {
+public class UserDAO extends GenericDAO<User, Integer> {
 
     private static final long serialVersionUID = -5859058016736013679L;
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getSimpleName());
