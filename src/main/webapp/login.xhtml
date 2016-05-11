@@ -14,12 +14,15 @@
                         <h2 class="liftbox_login"><span class="glyphicon glyphicon-log-in"> </span>&#160;&#160;Login</h2>
                         <br/>
                         <div class="form-group">
-                            <input id="usr" class="form-control" type="text" name="j_username" placeholder="User name"/>
+                            <input id="usr" class="form-control" style="height: 46px;" type="text" name="j_username" placeholder="User name"/>
                         </div>
                         <div class="form-group">
-                            <input id="pwd" class="form-control" type="password" name="j_password" placeholder="Password"/>
+                            <input id="pwd" class="form-control" style="height: 46px;" type="password" name="j_password" placeholder="Password"/>
                         </div>
+                        <br />
                         <input type="submit" name="login" value="Login" class="btn btn-success btn-lg btn-block"/>
+                        <br />
+                        <p><a href="#{request.contextPath}/register.xhtml" class="not_reg_yet">Not Registered Yet?</a></p>
                     </form>
 
                     <ui:fragment rendered="#{not empty request.getParameter('error')}">

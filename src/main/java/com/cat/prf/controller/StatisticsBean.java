@@ -69,7 +69,7 @@ public class StatisticsBean {
                 downloadsMap.put(download.getDate(), 1);
             }
 
-            if(downloadsMap.get(download.getDate()) > max) {
+            if (downloadsMap.get(download.getDate()) > max) {
                 max = downloadsMap.get(download.getDate());
             }
         }
@@ -81,8 +81,8 @@ public class StatisticsBean {
                 uploadsMap.put(upload.getDate(), 1);
             }
 
-            if(uploadsMap.get(upload.getDate()) > max) {
-                max = downloadsMap.get(upload.getDate());
+            if (uploadsMap.get(upload.getDate()) > max) {
+                max = uploadsMap.get(upload.getDate());
             }
         }
 

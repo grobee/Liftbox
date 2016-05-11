@@ -60,7 +60,7 @@ public class RegisterBean implements Serializable {
     }
 
     @Transactional
-    public void submit() {
+    public String submit() {
         User user = userDAO.addUser(getUname(), getEmail(), getPass());
 
         user.setRootfolder(folderDAO.createNewFolder(user.getUsername()));
@@ -68,5 +68,7 @@ public class RegisterBean implements Serializable {
 
         UserRole role = new UserRole(user.getUsername(), Roles.USER.getName());
         userRoleDAO.create(role);
+
+        return "login.xhtml?faces-redirect=true";
     }
 }

@@ -2,27 +2,40 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 template="templates/no_navbar.xhtml">
     <ui:define name="content">
-        <h2>Liftbox Register</h2>
-        <br/>
-        <br/>
+        <div class="container-fluid">
+            <div class="row" style="margin-top: 5%">
+                <div class="col-md-6 col-sm-6 col-xs-12 form_reg" style="text-shadow: 0.2em 0.2em rgba(0, 0, 0, 0.2);  width: 20%;">
+                    <div class="liftbox_reg_title">Liftbox Register</div>
+                    <br /> <br />
+                    <h:form role="form" method="post" action="">
+                        <div class="form-group">
+                            <h:inputText id="usr" value="#{registerBean.uname}" class="form-control" style="height: 46px;" a:placeholder="User name"/>
+                        </div>
 
-        <h:form role="form" method="post" action="">
-            <div class="form-group">
-                <label for="usr">Username:</label>
-                <h:inputText value="#{registerBean.uname}" class="form-control" id="usr" style="width: 300px"/>
-            </div>
-            <div class="form-group">
-                <label for="usr">Email:</label>
-                <h:inputText value="#{registerBean.email}" class="form-control" id="email" style="width: 300px"/>
-            </div>
-            <div class="form-group">
-                <label for="pwd">Password:</label>
-                <h:inputSecret value="#{registerBean.pass}" class="form-control" id="pwd" style="width: 300px"/>
-            </div>
-            <h:commandButton class="btn btn-primary btn-md" value="Submit" action="#{registerBean.submit}"/>
-        </h:form>
+                        <div class="form-group">
+                            <h:inputText id="email" value="#{registerBean.email}" class="form-control" style="height: 46px;" a:placeholder="Email"/>
+                        </div>
 
+                        <div class="form-group">
+                            <h:inputSecret id="pwd" value="#{registerBean.pass}" class="form-control" style="height: 46px;" a:placeholder="Password"/>
+                        </div>
+                        <br />
+                        <h:commandButton class="btn btn-primary btn-lg btn-block" value="Submit" action="#{registerBean.submit}"/>
+                    </h:form>
+
+                    <ui:fragment rendered="#{not empty request.getParameter('error')}">
+                        <br />
+                        <div class="alert alert-danger" style="width: 70%">
+                            <strong>Error!</strong> Incorrect username or password!
+                        </div>
+                    </ui:fragment>
+                </div>
+            </div>
+        </div>
     </ui:define>
 </ui:composition>

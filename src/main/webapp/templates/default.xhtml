@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 <h:head>
     <title>Liftbox</title>
@@ -11,10 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/min/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/index.css" />
-    <h:outputStylesheet library="primefaces" name="primefaces.css"/>
-    <h:outputScript library="javascript" name="min/bootstrap.min.js"/>
-    <h:outputScript library="javascript" name="main.js"/>
-    <h:outputScript library="primefaces" name="primefaces.js"/>
+    <f:facet name="first">
+        <h:outputScript library="javascript" name="min/jquery-2.2.2.min.js"/>
+        <h:outputScript library="javascript" name="min/bootstrap.min.js"/>
+        <h:outputScript library="primefaces" name="primefaces.js"/>
+        <h:outputStylesheet library="primefaces" name="primefaces.css"/>
+    </f:facet>
     <ui:insert name="includes"/>
 </h:head>
 <h:body>
@@ -36,12 +38,6 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="collapse">
                     <ul class="nav navbar-nav">
-                        <ui:repeat value="#{menuBean.pages}" var="page">
-                            <!--suppress ELValidationInJSP -->
-                            <li class="#{view.viewId == page.viewId ? 'active' : ''}">
-                                <h:link value="#{page.title}" outcome="#{page.viewId}"/>
-                            </li>
-                        </ui:repeat>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown" >
@@ -49,7 +45,11 @@
                             <ul class="dropdown-menu">
                                 <li><a class="none"><span class="glyphicon glyphicon-user"> </span>&#160;&#160;<span>#{request.userPrincipal.name}</span></a></li>
                                 <li><a class="none">#{userSettingsBean.getOldEmail(request.userPrincipal.name)}</a></li>
-                                <li><a href="#{root}/usersettings.xhtml"><span class="glyphicon glyphicon-cog"> </span>&#160;<span class="liftbox_color1">Account settings</span></a></li>
+                                <ui:fragment rendered="#{adminPanelBean.getRole(request.userPrincipal.name)== 'ADMIN'}">
+                                    <li><a href="#{request.contextPath}/adminpanel.xhtml">
+                                            <span class="glyphicon glyphicon-briefcase"> </span>&#160;<span class="liftbox_color1">Admin panel</span></a></li>
+                                </ui:fragment>
+                                <li><a href="usersettings.xhtml"><span class="glyphicon glyphicon-cog"> </span>&#160;<span class="liftbox_color1">Account settings</span></a></li>
                                 <li><a href="#{root}/logout"><span class="glyphicon glyphicon-log-out"> </span>&#160;<span class="liftbox_color1">Logout</span></a></li>
                             </ul>
                         </li>
