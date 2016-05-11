@@ -8,6 +8,7 @@ import com.cat.prf.entity.User;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -53,6 +54,9 @@ public class ListFilesBean implements Serializable {
 
     @Inject
     private FolderFileDAO folderFileDAO;
+
+    @Inject
+    private FolderFolderDAO folderFolderDAO;
 
     public ListFilesBean() {
     }
@@ -203,12 +207,35 @@ public class ListFilesBean implements Serializable {
         return "listfiles.xhtml?faces-redirect=true";
     }
 
-    public void createFolder() {
-        //LOGGER.info("Cratefolder " + newFolderName + " currentID " + currentId);
-        folderDAO.createNewFolder(newFolderName, getCurrentId());
+    public boolean isFolderEmpty(long id) {
+        Folder folder = folderDAO.read(id);
+        return folder.getFolders().size() == 0 && folder.getFiles().size() == 0;
+    }
 
-        folders.clear();
-        folders.addAll(folderDAO.getFoldersDAO(getCurrentId()));
+    @Transactional
+    public String deleteFolder(long id) {
+        Folder folder = folderDAO.read(id);
+        folderFolderDAO.deleteChildFolder(id);
+        folderDAO.deleteEntity(folder);
+        return "listfiles.xhtml?faces-redirect=true";
+    }
+
+    public String createFolder() {
+        //LOGGER.info("Cratefolder " + newFolderName + " currentID " + currentId);
+        if (!folderDAO.isAlreadyFolder(newFolderName, getCurrentId())) {
+
+            folderDAO.createNewFolder(newFolderName, getCurrentId());
+
+            folders.clear();
+            folders.addAll(folderDAO.getFoldersDAO(getCurrentId()));
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage("errorMessage",
+                    new FacesMessage("Error creating new folder.", "A folder with this name already exists."));
+            context.getExternalContext().getFlash().setKeepMessages(true);
+        }
+
+        return "listfiles.xhtml?faces-redirect=true";
     }
 
     public List<Folder> getPath() {

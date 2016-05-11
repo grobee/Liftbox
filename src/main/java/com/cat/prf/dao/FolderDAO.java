@@ -3,6 +3,7 @@ package com.cat.prf.dao;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -26,6 +27,16 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
         TypedQuery<Folder> userQuery = getEntityManager().createNamedQuery("getFolderId", Folder.class);
         userQuery.setParameter("username", username);
         return (int) userQuery.getSingleResult().getId();
+    }
+
+    public boolean isAlreadyFolder(String childName, long parentId) {
+        Folder parent = read(parentId);
+        for(Folder folder : parent.getFolders()) {
+            if(folder.getName().equals(childName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<File> getFilesDAO(long id) {
@@ -54,7 +65,6 @@ public class FolderDAO extends GenericDAO<Folder, Long> {
 
         return folder;
     }
-
 
     @Transactional
     public void createNewFolder(String foldername, long currid) {

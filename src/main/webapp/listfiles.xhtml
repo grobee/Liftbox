@@ -16,6 +16,10 @@
         <h2>Liftbox listfiles</h2>
         <br/>
         <br/>
+
+        <h:messages errorClass="error" styleClass="alert alert-danger" showDetail="true"/>
+
+        <br />
         <div class="row">
             <div class="col-md-6">
                 <h:panelGroup rendered="#{listFilesBean.pathSize > 1}" styleClass="float-left">
@@ -51,7 +55,8 @@
             <br/>
             <br/>
         </div>
-        <p:dataTable class="table .table-responsive table-hover" id="folderTable" value="#{listFilesBean.getFolders()}" var="folder" style="font-size:14px; margin-bottom: 0px">
+        <p:dataTable class="table .table-responsive table-hover" id="folderTable" value="#{listFilesBean.getFolders()}"
+                     var="folder" style="font-size:14px; margin-bottom: 0">
             <p:column class="col-md-1" style="text-align: center">
                 <f:facet name="header">
                 </f:facet><span class="glyphicon glyphicon-folder-close" style="font-size: 1.5em"></span></p:column>
@@ -60,7 +65,7 @@
                 <f:facet name="header">Name</f:facet>
                 <strong>
                     <h:form>
-                        <h:commandLink  value="[#{folder.name}]"
+                        <h:commandLink value="[#{folder.name}]"
                                        action="#{listFilesBean.goNextPage(folder.id)}"/>
                     </h:form>
                 </strong>
@@ -70,8 +75,16 @@
                 <f:facet name="header">Size</f:facet>DIR
             </p:column>
 
-            <p:column class="col-md-1">
-
+            <p:column class="col-md-1" style="text-align: center">
+                <ui:fragment rendered="#{listFilesBean.isFolderEmpty(folder.id)}">
+                    <h:form>
+                        <h:commandLink onclick="if (!confirm('Please confirm your decision')) return false"
+                                       action="#{listFilesBean.deleteFolder(folder.id)}" hreflang="javascript:void(0);">
+                        <span class="glyphicon glyphicon-trash"
+                              style="font-size: 1.5em"></span>
+                        </h:commandLink>
+                    </h:form>
+                </ui:fragment>
             </p:column>
         </p:dataTable>
         <p:dataTable
@@ -99,7 +112,8 @@
 
             <p:column class="col-md-1" style="text-align: center">
                 <h:form>
-                    <h:commandLink onclick="if (! confirm('Really want to do that?')) return false" action="#{listFilesBean.delete(file.id)}" hreflang="javascript:void(0);">
+                    <h:commandLink onclick="if (!confirm('Please confirm your decision')) return false"
+                                   action="#{listFilesBean.delete(file.id)}" hreflang="javascript:void(0);">
                         <span class="glyphicon glyphicon-trash"
                               style="font-size: 1.5em"></span>
                     </h:commandLink>
@@ -118,7 +132,8 @@
                     </div>
                     <div class="modal-body">
                         <p>Enter Folder Name:</p>
-                        <h:inputText a:autofocus="true" value="#{listFilesBean.newFolderName}" class="form-control" id="newfolder"/>
+                        <h:inputText a:autofocus="true" value="#{listFilesBean.newFolderName}" class="form-control"
+                                     id="newfolder"/>
                     </div>
                     <div class="modal-footer">
                         <h:commandButton class="btn btn-primary btn-md" value="Create"

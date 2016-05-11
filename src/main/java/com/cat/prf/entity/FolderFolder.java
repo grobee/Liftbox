@@ -5,6 +5,12 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "folders_folders", schema = "liftbox")
+@NamedQueries(
+        @NamedQuery(
+                name = "getRelationshipByChildFolder",
+                query = "select f from FolderFolder f where f.foldersId = :childid"
+        )
+)
 public class FolderFolder implements Serializable {
     private long folderId;
     private long foldersId;
