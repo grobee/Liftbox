@@ -1,8 +1,7 @@
 package com.cat.prf.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -15,8 +14,8 @@ import java.util.List;
 public class Folder {
     private long id;
     private String name;
-    private List<Folder> folders = new ArrayList<>();
-    private List<File> files = new ArrayList<>();
+    private Set<Folder> folders;
+    private Set<File> files;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,20 +36,20 @@ public class Folder {
     }
 
     @OneToMany(fetch = FetchType.EAGER, targetEntity = Folder.class)
-    public List<Folder> getFolders() {
+    public Set<Folder> getFolders() {
         return folders;
     }
 
-    public void setFolders(List<Folder> folders) {
+    public void setFolders(Set<Folder> folders) {
         this.folders = folders;
     }
 
     @OneToMany(fetch = FetchType.EAGER, targetEntity = File.class)
-    public List<File> getFiles() {
+    public Set<File> getFiles() {
         return files;
     }
 
-    public void setFiles(List<File> files) {
+    public void setFiles(Set<File> files) {
         this.files = files;
     }
 

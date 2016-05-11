@@ -1,6 +1,5 @@
 package com.cat.prf.dao;
 
-import com.cat.prf.controller.ListfilesBean;
 import com.cat.prf.entity.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -14,7 +13,7 @@ import java.util.logging.Logger;
 public class UserDAO extends GenericDAO<User, Long> {
 
     private static final long serialVersionUID = -5859058016736013679L;
-    private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getSimpleName());
 
 
     public UserDAO() {

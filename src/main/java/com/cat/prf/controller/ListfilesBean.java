@@ -3,11 +3,13 @@ package com.cat.prf.controller;
 import com.cat.prf.dao.FileDAO;
 import com.cat.prf.dao.FolderDAO;
 import com.cat.prf.dao.FolderFileDAO;
+import com.cat.prf.dao.UserDAO;
 import com.cat.prf.entity.File;
 import com.cat.prf.entity.Folder;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
@@ -22,27 +24,21 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-@Named("listfilesBean")
-@ViewScoped
-public class ListfilesBean implements Serializable {
+@Named
+@SessionScoped
+public class ListFilesBean implements Serializable {
 
-    private static final Logger LOGGER = Logger.getLogger(ListfilesBean.class.getSimpleName());
-
-
+    private static final Logger LOGGER = Logger.getLogger(ListFilesBean.class.getSimpleName());
     // It would duplicate the table at every site refresh without this
-    private boolean firstRunFiles;
-    private boolean firstRunFolders;
-    private boolean showBackButton;
-    private String newFolderName;
-
-    private long currentId = 0;
 
     // List of files on the page
     private List<File> files = new ArrayList<>();
     // List of folders on the page
     private List<Folder> folders = new ArrayList<>();
-    // Page history needed for navigation
-    private List<Folder> history = new ArrayList<>();
+    // Page path needed for navigation
+    private List<Folder> path = new ArrayList<>();
+    private String newFolderName;
+
 
     @Inject
     private FolderDAO folderDAO;
@@ -51,44 +47,41 @@ public class ListfilesBean implements Serializable {
     private FileDAO fileDAO;
 
     @Inject
+    private UserDAO userDAO;
+
+    @Inject
     private FolderFileDAO folderFileDAO;
 
-    public ListfilesBean() {
-        firstRunFiles = true;
-        firstRunFolders = true;
-        showBackButton = false;
+    public ListFilesBean() {
+    }
+
+    @PostConstruct
+    public void initialize() {
+        path.add(userDAO.getUserByName(getUsername()).getRootfolder());
+
+        folders.addAll(getCurrentFolder().getFolders());
+        files.addAll(getCurrentFolder().getFiles());
     }
 
     // Database request for root folders files
-    public List<File> getFiles(String username) {
-
-        if (firstRunFiles) {
-            files.addAll(folderDAO.getFilesByUnameDAO(username));
-        }
-        firstRunFiles = false;
+    public List<File> getFiles() {
+        files.clear();
+        files.addAll(folderDAO.getFilesDAO(getCurrentId()));
 
         return files;
     }
 
     //  Database request for root folders folders
-    public List<Folder> getFolders(String username) {
-
-        if (firstRunFolders) {
-            folders.addAll(folderDAO.getFoldersByUnameDAO(username));
-        }
-        firstRunFolders = false;
+    public List<Folder> getFolders() {
+        folders.clear();
+        folders.addAll(folderDAO.getFoldersDAO(getCurrentId()));
 
         return folders;
     }
 
-    public boolean isShowBackButton() {
-        return showBackButton;
+    public int getPathSize() {
+        return path.size();
     }
-
-    public void setShowBackButton(boolean showBackButton) {
-        this.showBackButton = showBackButton;
-    }
-
 
     public void setFiles(List<File> files) {
         this.files = files;
@@ -96,6 +89,21 @@ public class ListfilesBean implements Serializable {
 
     public void setFolders(List<Folder> folders) {
         this.folders = folders;
+    }
+
+    public void goNextPage(long id) {
+        Folder folder = folderDAO.read(id);
+        path.add(folder);
+
+        getFiles();
+        getFolders();
+    }
+
+    public void goBackPage() {
+        path.remove(path.size() - 1);
+
+        getFiles();
+        getFolders();
     }
 
     public String getNewFolderName() {
@@ -106,62 +114,21 @@ public class ListfilesBean implements Serializable {
         this.newFolderName = newFolderName;
     }
 
-    public void goNextPage(long id, String username) {
-
-        // Check whether the user is on the root page
-        if (!showBackButton && history.size() == 0) {
-            long rootId = folderDAO.getCurrentId(username);
-            history.add(folderDAO.read(rootId));
-        }
-
-        history.add(folderDAO.read(id));
-        showBackButton = true;
-        changeListById(id);
-
+    public Folder getCurrentFolder() {
+        return path.get(path.size() - 1);
     }
 
-    public void goBackPage() {
 
-        history.remove(history.size() - 1);
-        long id = history.get(history.size() - 1).getId();
-
-        if (history.size() == 1) {
-            showBackButton = false;
-        }
-
-        changeListById(id);
-
-    }
-
-    // Database request with specified folder id
-    private void changeListById(long id) {
-        folders.clear();
-        files.clear();
-
-        folders.addAll(folderDAO.getFoldersDAO(id));
-        files.addAll(folderDAO.getFilesDAO(id));
-    }
-
-    public long getCurrentId(String username) {
-        if (history.size() <= 1) {
-            currentId = folderDAO.getCurrentId(username);
+    public long getCurrentId() {
+        if (path.size() == 0) {
+            return folderDAO.getCurrentId(getUsername());
         } else {
-            currentId = history.get(history.size() - 1).getId();
+            return path.get(path.size() - 1).getId();
         }
-
-        return currentId;
     }
 
-    public void setCurrentId(int currentId) {
-        this.currentId = currentId;
-    }
-
-    public void createFolder() {
-        //LOGGER.info("Cratefolder " + newFolderName + " currentID " + currentId);
-        folderDAO.createNewFolder(newFolderName,currentId);
-
-        folders.clear();
-        folders.addAll(folderDAO.getFoldersDAO(currentId));
+    public String getUsername() {
+        return FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
     }
 
     public void download(long id) {
@@ -174,16 +141,16 @@ public class ListfilesBean implements Serializable {
 
         String username = req.getUserPrincipal().getName();
         String filePath = req.getServletContext().getRealPath("") + java.io.File.separator
-                + "Files" + java.io.File.separator + username;
+                + "Files" + java.io.File.separator;
 
-        for (Folder parent : history) {
-            filePath += "/" + parent.getName();
+        for (Folder parent : path) {
+            filePath += java.io.File.separator + parent.getName();
         }
 
-        filePath += "/" + file.getName();
+        filePath += java.io.File.separator + file.getName();
 
         java.io.File fileDown = new java.io.File(filePath);
-        ServletOutputStream mbaos = null;
+        ServletOutputStream mbaos;
 
         resp.reset();
 
@@ -217,13 +184,15 @@ public class ListfilesBean implements Serializable {
 
         String username = req.getUserPrincipal().getName();
         String filePath = req.getServletContext().getRealPath("") + java.io.File.separator
-                + "Files" + java.io.File.separator + username;
+                + "Files";
 
-        for (Folder parent : history) {
-            filePath += "/" + parent.getName();
+        for (Folder parent : path) {
+            filePath += java.io.File.separator + parent.getName();
         }
 
-        filePath += "/" + file.getName();
+        filePath += java.io.File.separator + file.getName();
+
+        LOGGER.info(filePath);
 
         java.io.File fileDel = new java.io.File(filePath);
         fileDel.delete();
@@ -232,5 +201,13 @@ public class ListfilesBean implements Serializable {
         fileDAO.delete(id);
 
         return "listfiles.xhtml?faces-redirect=true";
+    }
+
+    public void createFolder() {
+        //LOGGER.info("Cratefolder " + newFolderName + " currentID " + currentId);
+        folderDAO.createNewFolder(newFolderName,getCurrentId());
+
+        folders.clear();
+        folders.addAll(folderDAO.getFoldersDAO(getCurrentId()));
     }
 }
